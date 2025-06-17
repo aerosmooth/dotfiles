@@ -1,0 +1,9 @@
+[user]
+	name = Shota Sasaki
+	email = sasaki@fun.bio.keio.ac.jp
+[color]
+	ui = true
+[http]
+	sslversify = false
+[push]
+	default = simple
