@@ -168,3 +168,6 @@ export LSCOLORS=Bxegedabagacad # ディレクトリを青
 export LSCOLORS=Gxfxcxdxbxegedabagacad # ディレクトリを緑
 export LSCOLORS=exfxcxdxbxegedabagacad # ディレクトリを青、実行ファイルを赤
 export PATH="/Users/sasaki/Library/Python/3.9/bin:$PATH"
+
+alias deac='deactivate'
+alias gitlog='git log --oneline --graph --decorate'
