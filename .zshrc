@@ -188,3 +188,6 @@ fi
 unset __conda_setup
 # <<< conda initialize <<<
 
+
+alias deac='deactivate'
+alias gitlog='git log --oneline --graph --decorate'
