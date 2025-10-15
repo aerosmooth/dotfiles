@@ -36,6 +36,7 @@ LOGCHECK=20
 #.oファイルなどを補完候補に出さない
 fignore=(.o .aux .log .bbl .blg .lof .dvi .fls .fdb_latexmk .synctex.gz .lot .toc .out .a\~)
 alias ez="emacs ~/.zshrc"
+alias nz="nvim ~/.zshrc"
 alias sz="source ~/.zshrc"
 #ディレクトリスタックの上限
 DIRSTACKSIZE=10
@@ -52,7 +53,7 @@ setopt AUTO_CD
 #自動的にpushd
 setopt AUTO_PUSHD
 #名前の変更
-PS1="ssk %~ %#  "
+# PS1="ssk %~ %#  "
 #PS1="%n:%{${fg[red]}${bg[yellow]%} %~%{${fg[green]}${bg[default]%} %# "
 #同じコマンドをヒストリにいれない
 setopt HIST_IGNORE_DUPS
@@ -63,7 +64,7 @@ zstyle ':completion:*' list-colors di=36 ln=35 ex=31 '=*.c=33' '=*.py=33'
 setopt INTERACTIVE_COMMENTS
 setopt RM_STAR_WAIT
 setopt EXTENDED_GLOB
-alias ls='ls -F -G'
+# alias ls='ls -F -G'
 # backup my nvim config
 # backup my neovim config. you can restore the config by using restore-nvim.zsh
 backup-nvim() {
@@ -171,3 +172,32 @@ export PATH="/Users/sasaki/Library/Python/3.9/bin:$PATH"
 
 alias deac='deactivate'
 alias gitlog='git log --oneline --graph --decorate'
+alias pipupgrade='pip install --upgrade pip'
+alias ssd='/Volumes/sasaki_SSD/research'
+# alias unmount_ssd='disk_id=$(diskutil list | grep "sasaki_SSD" | awk '{print $NF}')'
+# エイリアス: 外付けSSD 'sasaki_SSD' を安全に取り出す
+alias unmount_ssd='disk_id=$(diskutil list | grep "sasaki_SSD" | awk "{print \$NF}"); diskutil unmountDisk /dev/$disk_id'
+SHINY_FLA="" # 通常は空
+if [ $(($RANDOM % 20)) -eq 0 ]; then
+  SHINY_FLA="--shiny"
+fi
+alias pokemon='pokemon-colorscripts -r $SHINY_FLA'
+# lsコマンドを実行した際、確率でポケモンを表示する関数
+ls() {
+  command ls -F -G "$@"
+
+  if [ $(($RANDOM % 5)) -eq 0 ]; then
+    
+    SHINY_FLAG="" # 通常は空
+    if [ $(($RANDOM % 20)) -eq 0 ]; then
+      SHINY_FLAG="--shiny"
+    fi
+    echo ""
+    if [ $(($RANDOM % 5)) -eq 0 ]; then
+      pokemon-colorscripts -n tepig $SHINY_FLAG
+    else
+      pokemon-colorscripts -r $SHINY_FLAG
+    fi
+    echo ""
+  fi
+}
