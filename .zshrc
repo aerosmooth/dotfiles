@@ -12,6 +12,9 @@ fi
 #   source "${XDG_CACHE_HOME:-$HOME/.cache}/p10k-instant-prompt-${(%):-%n}.zsh"
 #  fi
 alias emacs="/Applications/MacPorts/Emacs.app/Contents/MacOS/emacs -nw"
+unalias emacs
+# emacsのエイリアス
+alias emacs="/usr/bin/emacs -nw"
 export JAVA_HOME=/opt/local/Library/Java/JavaVirtualMachines/openjdk11-zulu/Contents/Home
 # 履歴検索を有効化
 autoload history-search-end
@@ -169,6 +172,23 @@ export LSCOLORS=Bxegedabagacad # ディレクトリを青
 export LSCOLORS=Gxfxcxdxbxegedabagacad # ディレクトリを緑
 export LSCOLORS=exfxcxdxbxegedabagacad # ディレクトリを青、実行ファイルを赤
 export PATH="/Users/sasaki/Library/Python/3.9/bin:$PATH"
+export PATH=/usr/local/anaconda3/bin:$PATH
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/usr/local/anaconda3/bin/conda' 'shell.zsh' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/usr/local/anaconda3/etc/profile.d/conda.sh" ]; then
+        . "/usr/local/anaconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/usr/local/anaconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
 
 alias deac='deactivate'
 alias gitlog='git log --oneline --graph --decorate'
