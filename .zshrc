@@ -67,7 +67,7 @@ zstyle ':completion:*' list-colors di=36 ln=35 ex=31 '=*.c=33' '=*.py=33'
 setopt INTERACTIVE_COMMENTS
 setopt RM_STAR_WAIT
 setopt EXTENDED_GLOB
-# alias ls='ls -F -G'
+alias ls='ls --color=auto -F'
 # backup my nvim config
 # backup my neovim config. you can restore the config by using restore-nvim.zsh
 backup-nvim() {
@@ -197,27 +197,26 @@ alias ssd='/Volumes/sasaki_SSD/research'
 # alias unmount_ssd='disk_id=$(diskutil list | grep "sasaki_SSD" | awk '{print $NF}')'
 # エイリアス: 外付けSSD 'sasaki_SSD' を安全に取り出す
 alias unmount_ssd='disk_id=$(diskutil list | grep "sasaki_SSD" | awk "{print \$NF}"); diskutil unmountDisk /dev/$disk_id'
-SHINY_FLA="" # 通常は空
-if [ $(($RANDOM % 20)) -eq 0 ]; then
-  SHINY_FLA="--shiny"
-fi
-alias pokemon='pokemon-colorscripts -r $SHINY_FLA'
-# lsコマンドを実行した際、確率でポケモンを表示する関数
-ls() {
-  command ls -F -G "$@"
+# 履歴を保存するファイルのパスを指定
+# (ホームディレクトリの .zsh_history というファイル名が一般的)
+HISTFILE=~/.zsh_history
 
-  if [ $(($RANDOM % 5)) -eq 0 ]; then
-    
-    SHINY_FLAG="" # 通常は空
-    if [ $(($RANDOM % 20)) -eq 0 ]; then
-      SHINY_FLAG="--shiny"
-    fi
-    echo ""
-    if [ $(($RANDOM % 5)) -eq 0 ]; then
-      pokemon-colorscripts -n tepig $SHINY_FLAG
-    else
-      pokemon-colorscripts -r $SHINY_FLAG
-    fi
-    echo ""
-  fi
+# メモリ内で記憶しておくコマンド数
+HISTSIZE=10000
+
+# 履歴ファイルに保存するコマンド数 (HISTSIZEと同じでOK)
+SAVEHIST=10000
+
+# 重複するコマンドは保存しない
+setopt HIST_IGNORE_ALL_DUPS
+
+# 履歴をセッション間で即時共有する (複数ターミナルで便利)
+setopt SHARE_HISTORY
+
+# コマンド実行後、すぐに履歴ファイルに追記する (終了時だけでなく)
+setopt INC_APPEND_HISTORY
+SR() {
+    cd ./git/mye2esr
+    conda activate e2esr
 }
+
