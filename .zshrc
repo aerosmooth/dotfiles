@@ -84,7 +84,6 @@ zstyle ':completion:*' list-colors di=36 ln=35 ex=31 '=*.c=33' '=*.py=33'
 setopt INTERACTIVE_COMMENTS
 setopt RM_STAR_WAIT
 setopt EXTENDED_GLOB
-# alias ls='ls -F -G'
 # backup my nvim config
 # backup my neovim config. you can restore the config by using restore-nvim.zsh
 backup-nvim() {
@@ -351,4 +350,3 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
     alias ssh="kitten ssh"
     alias pbcopy="kitten clipboard"
 fi
-
