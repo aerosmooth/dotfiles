@@ -216,137 +216,16 @@ alias ssd='/Volumes/sasaki_SSD/research'
 # 環境ごとの分岐: Mac (ローカル) と それ以外
 # ==============================================================================
 if [[ "$(uname -s)" == "Darwin" ]]; then
-  # ----------------------------------------------------------------------------
-  # ローカル環境 (Mac) の設定
-  # ----------------------------------------------------------------------------
-  alias unmount_ssk='disk_id=$(diskutil list | grep "sasaki_SSD" | awk "{print \$NF}"); diskutil unmountDisk /dev/$disk_id'
-  SHINY_FLA="" # 通常は空
-  if [ $(($RANDOM % 20)) -eq 0 ]; then
-    SHINY_FLA="--shiny"
+  if [ -f "$HOME/.zshrc.mac" ]; then
+    source "$HOME/.zshrc.mac"
   fi
-  alias pokemon='pokemon-colorscripts -r $SHINY_FLA'
-  
-  # lsコマンドを実行した際、確率でポケモンを表示する関数
-  # unalias ls
-  function ls() {
-    command ls -F -G "$@"
-
-    if [ $(($RANDOM % 10)) -eq 0 ]; then
-      SHINY_FLAG="" # 通常は空
-      if [ $(($RANDOM % 20)) -eq 0 ]; then
-        SHINY_FLAG="--shiny"
-      fi
-      echo ""
-      if [ $(($RANDOM % 5)) -eq 0 ]; then
-        pokemon-colorscripts -n tepig $SHINY_FLAG
-      else
-        pokemon-colorscripts -r $SHINY_FLAG
-      fi
-      echo ""
-    fi
-  }
-  
-  export BAT_THEME="ansi"
-  export DISPLAY=:0
-  
-  nvistat() {
-    servers=("v102" "v103" "v104" "v105" "v106" "v107" "v108")
-    foreach i in $servers
-      echo "${fg_bold[green]}$i${reset_color}:"
-      ssh -x $i nvidia-smi --query-gpu=index,name,utilization.gpu,utilization.memory --format=csv,noheader \
-        | sed -e 's/NVIDIA //g' -e 's/Tesla //g' -e 's/ %/%/g' -e 's/Graphics Device/A100 80GB PCIe/g' -e "s/ 0%/ ${fg_bold[cyan]}0${reset_color}%/g" -e "s/ 100%/${fg_bold[red]} 100${reset_color}%/g" \
-        | while IFS=, read -r id gpu load mem
-          do
-            printf "%4s %16s [%4s] [%4s]\n" "$id" "$gpu" "$load" "$mem"
-          done
-    end
-  }
-  
-  # 全サーバーから結果を集約する関数
-  sync_results() {
-      echo "Starting sync from v106..."
-      # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v106:/home/sasaki/git/e2esr/mine/ ./results_all/bef_appro/v106/
-      rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v106:/home/sasaki/git/e2esr/appropriate_experiment/ ./results_all/v106/
-      
-      echo "Starting sync from v101..."
-      # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v101:/home/sasaki/git/mye2esr/mine/ ./results_all/bef_appro/v101/
-      # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v101:/home/sasaki/git/mye2esr/appropriate_experiment/ ./results_all/v101/
-      
-      echo "Starting sync from v107..."
-      # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v107:/home/sasaki/git/symbolicregression/mine/ ./results_all/bef_appro/v107/
-      rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v107:/home/sasaki/git/symbolicregression/appropriate_experiment/ ./results_all/v107/
-      
-      echo "Starting sync from v105..."
-      # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v105:/home/sasaki/git/mye2esr/mine/ ./results_all/bef_appro/v105/
-      rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v105:/home/sasaki/git/mye2esr/appropriate_experiment/ ./results_all/v105/
-
-      echo "All sync tasks completed."
-  }
-  
-  alias SR="cd ~/research/git/e2esr/"
-  alias install_kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
-  path=($HOME/.local/lib/npm/bin /Applications/kitty.app/ Contents/MacOS $path)
-  path=($HOME/.local/bin $path)
-  
-  replace_all() {
-    if [ $# -ne 2 ]; then
-      echo "使用方法: replace_all <置換前の文字列> <置換後の文字列>"
-      return 1
-    fi
-    grep -rl "$1" . | xargs sed -i '' "s/$1/$2/g"
-  }
-  
-  alias -g noc='nocorrect'
-  export ZSH="$HOME/.oh-my-zsh"
-
-  ZSH_THEME="powerlevel10k/powerlevel10k"
-
-  plugins=(
-    git
-    z
-    colored-man-pages
-    zsh-autosuggestions
-    zsh-syntax-highlighting
-  )
-
-  source $ZSH/oh-my-zsh.sh
-
 else
-  # ----------------------------------------------------------------------------
-  # それ以外の環境 (Linux 等) の設定
-  # ----------------------------------------------------------------------------
-  alias unmount_ssd='disk_id=$(diskutil list | grep "sasaki_SSD" | awk "{print \$NF}"); diskutil unmountDisk /dev/$disk_id'
-  alias ls='ls --color=auto -F'
-  
-  # 履歴を保存するファイルのパスを指定
-  # (ホームディレクトリの .zsh_history というファイル名が一般的)
-  HISTFILE=~/.zsh_history
-
-  # メモリ内で記憶しておくコマンド数
-  HISTSIZE=10000
-
-  # 履歴ファイルに保存するコマンド数 (HISTSIZEと同じでOK)
-  SAVEHIST=10000
-
-  # 重複するコマンドは保存しない
-  setopt HIST_IGNORE_ALL_DUPS
-
-  # 履歴をセッション間で即時共有する (複数ターミナルで便利)
-  setopt SHARE_HISTORY
-
-  # コマンド実行後、すぐに履歴ファイルに追記する (終了時だけでなく)
-  setopt INC_APPEND_HISTORY
-  
-  function SR() {
-      cd ./git/mye2esr
-      conda activate e2esr
-  }
+  if [ -f "$HOME/.zshrc.linux" ]; then
+    source "$HOME/.zshrc.linux"
+  fi
 fi
-alias icat="kitty +kitten icat"
 
- eval $(thefuck --alias)
-# ssh for kitty
-if [[ "$TERM" == "xterm-kitty" ]]; then
-    alias ssh="kitten ssh"
-    alias pbcopy="kitten clipboard"
+if [ -f "$HOME/.zshrc.local" ]; then
+  source "$HOME/.zshrc.local"
 fi
+$HOME/dotfiles/sync_dotfiles.sh

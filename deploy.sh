@@ -4,7 +4,7 @@
 # ./deploy.sh
 
 # カレントディレクトリのファイル/ディレクトリをループ（堅牢性のため変数名をfileに変更）
-for file in $(ls -A | grep -vE '\.git$|\.gitignore$|deploy.sh$|zsh$|README.md$|.DS_Store$'); do
+for file in $(ls -A | grep -vE '\.git$|\.gitignore$|deploy.sh$|zsh$|README.md$|.DS_Store$|sync_dotfiles.sh$'); do
   # リンク元とリンク先のパスを明確に変数に格納
   src_path="$PWD/$file"
   dest_path="$HOME/$file"
