@@ -1,0 +1,2 @@
+# prefixキーをC-qに変更
+set -g prefix C-q
