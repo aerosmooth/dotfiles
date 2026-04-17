@@ -235,4 +235,4 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
     alias ssh="kitten ssh"
     alias pbcopy="kitten clipboard"
 fi
-$HOME/dotfiles/sync_dotfiles.sh
+$HOME/dotfiles/sync_dotfiles.sh > /dev/null 2>&1
