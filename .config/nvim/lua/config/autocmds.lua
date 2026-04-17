@@ -12,3 +12,13 @@ if vim.env.NVIM_AUTO_PICKER == "config" then
     require("lazyvim.util.pick").config_files()()
   end)
 end
+vim.api.nvim_create_autocmd("FileType", {
+  pattern = { "python" },
+  callback = function()
+    vim.cmd('iabbr ifmain if __name__ == "__main__":<Enter>main()<Left>')
+    vim.cmd("iabbr frang for i in range():<Left><Left>")
+    vim.cmd(
+      'iabbr ifstart import sys<Enter>def solve():<Enter>input_data = sys.stdin.read().split()<Enter><BS>if __name__ == "__main__":<Enter>solve()'
+    )
+  end,
+})
