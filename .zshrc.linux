@@ -27,11 +27,3 @@
       cd ./git/mye2esr
       conda activate e2esr
   }
-fi
-alias icat="kitty +kitten icat"
-
- eval $(thefuck --alias)
-# ssh for kitty
-if [[ "$TERM" == "xterm-kitty" ]]; then
-    alias ssh="kitten ssh"
-    alias pbcopy="kitten clipboard"

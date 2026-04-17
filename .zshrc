@@ -228,4 +228,12 @@ fi
 if [ -f "$HOME/.zshrc.local" ]; then
   source "$HOME/.zshrc.local"
 fi
+alias icat="kitty +kitten icat"
+
+eval $(thefuck --alias)
+# ssh for kitty
+if [[ "$TERM" == "xterm-kitty" ]]; then
+    alias ssh="kitten ssh"
+    alias pbcopy="kitten clipboard"
+fi
 $HOME/dotfiles/sync_dotfiles.sh
