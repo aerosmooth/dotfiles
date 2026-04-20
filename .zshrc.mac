@@ -94,4 +94,4 @@
   source $ZSH/oh-my-zsh.sh
 
 eval $(thefuck --alias)
-alias booking='npm --prefix /Users/sasaki/M1/meeting_room run booking'
+alias booking=npx tsx ~/M1/meeting_room/booking-autofill.ts
