@@ -56,7 +56,7 @@
       
       echo "Starting sync from v107..."
       # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v107:/home/sasaki/git/symbolicregression/mine/ ./results_all/bef_appro/v107/
-      rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v107:/home/sasaki/git/symbolicregression/appropriate_experiment/ ./results_all/v107/
+      rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v107:/home/sasaki/git/mye2esr/appropriate_experiment/ ./results_all/v107/
       
       echo "Starting sync from v105..."
       # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v105:/home/sasaki/git/mye2esr/mine/ ./results_all/bef_appro/v105/
