@@ -48,6 +48,9 @@ vim.api.nvim_create_autocmd("FileType", {
   callback = function()
     vim.cmd('iabbr ifmain if __name__ == "__main__":<Enter>main()<Left>')
     vim.cmd("iabbr frang for i in range():<Left><Left>")
+    vim.cmd(
+      'iabbr ifstart import sys<Enter>def solve():<Enter>input_data = sys.stdin.read().split()<Enter><BS>if __name__ == "__main__":<Enter>solve()'
+    )
     vim.cmd("inoreabbrev <buffer><expr> atstart v:lua.lazyvim_python_atstart_expand()")
   end,
 })
