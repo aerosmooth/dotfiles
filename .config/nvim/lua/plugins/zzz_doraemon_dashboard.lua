@@ -11,6 +11,7 @@ return {
         section = "terminal",
         cmd = doraemon_cmd,
         height = 30,
+        ttl = 0,
         padding = 1,
       },
       { section = "keys", gap = 1, padding = 1 },
