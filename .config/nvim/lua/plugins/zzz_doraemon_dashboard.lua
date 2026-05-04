@@ -1,7 +1,7 @@
 return {
   "snacks.nvim",
   opts = function(_, opts)
-    local doraemon_cmd = vim.fn.stdpath("config") .. "/scripts/doraemon_dashboard.sh"
+    local doraemon_cmd = vim.fn.stdpath("config") .. "/scripts/random_dashboard.py"
 
     opts = opts or {}
     opts.notifier = { enabled = true }
