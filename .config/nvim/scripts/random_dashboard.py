@@ -18,11 +18,20 @@ COLORS = {
 RESET = "\033[0m"
 
 
+def art_lines(art_data):
+    return [line.strip() for line in art_data.strip().split("\n") if line.strip()]
+
+
+def art_size(art_data):
+    lines = art_lines(art_data)
+    width = max((len(line) for line in lines), default=0)
+    return len(lines), width
+
+
 def draw_art(art_data):
-    lines = [line for line in art_data.strip().split("\n") if line]
+    lines = art_lines(art_data)
 
     for line in lines:
-        line = line.strip()
         for char in line:
             if char in COLORS:
                 sys.stdout.write(f"{COLORS[char]}██")
@@ -33,6 +42,20 @@ def draw_art(art_data):
     sys.stdout.flush()
 
 
+def print_sizes():
+    for index, art_data in enumerate(arts):
+        height, width = art_size(art_data)
+        print(f"{index} {height} {width}")
+
+
 if __name__ == "__main__":
-    chosen_art = random.choice(arts)
+    if len(sys.argv) == 2 and sys.argv[1] == "--sizes":
+        print_sizes()
+        raise SystemExit
+
+    if len(sys.argv) == 3 and sys.argv[1] == "--index":
+        chosen_art = arts[int(sys.argv[2])]
+    else:
+        chosen_art = random.choice(arts)
+
     draw_art(chosen_art)
