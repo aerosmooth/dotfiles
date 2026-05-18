@@ -13,36 +13,6 @@ if vim.env.NVIM_AUTO_PICKER == "config" then
   end)
 end
 
-_G.lazyvim_python_atstart_expand = function()
-  local row = vim.api.nvim_win_get_cursor(0)[1]
-  local text = table.concat({
-    "import sys",
-    "",
-    "def read_input():",
-    "    input_data = sys.stdin.read().split()",
-    "",
-    "    return ",
-    "",
-    "def solve():",
-    "    = read_input()",
-    "",
-    'if __name__ == "__main__":',
-    "    solve()",
-  }, "\n")
-
-  vim.schedule(function()
-    vim.api.nvim_paste(text, false, -1)
-    vim.schedule(function()
-      local first = vim.api.nvim_buf_get_lines(0, row - 1, row, false)[1] or ""
-      if first:match("^ ") then
-        vim.api.nvim_buf_set_text(0, row - 1, 0, row - 1, 1, { "" })
-      end
-    end)
-  end)
-
-  return ""
-end
-
 vim.api.nvim_create_autocmd("FileType", {
   pattern = { "python" },
   callback = function()
@@ -51,6 +21,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.cmd(
       'iabbr ifstart import sys<Enter>def solve():<Enter>input_data = sys.stdin.read().split()<Enter><BS>if __name__ == "__main__":<Enter>solve()'
     )
-    vim.cmd("inoreabbrev <buffer><expr> atstart v:lua.lazyvim_python_atstart_expand()")
   end,
 })
