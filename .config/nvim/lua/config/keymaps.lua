@@ -38,8 +38,9 @@ if require("lazyvim.util").has("which-key.nvim") then
   })
 end
 
--- Iwamoto custom (map :Wq to :wq, :WQ to :wq)
+-- Treat :wq like :wqall so all modified buffers are saved before quitting.
 vim.cmd([[
-  cnoreabbrev Wq wq
-  cnoreabbrev WQ wq
+  cnoreabbrev <expr> wq getcmdtype() == ':' && getcmdline() ==# 'wq' ? 'wqall' : 'wq'
+  cnoreabbrev <expr> Wq getcmdtype() == ':' && getcmdline() ==# 'Wq' ? 'wqall' : 'Wq'
+  cnoreabbrev <expr> WQ getcmdtype() == ':' && getcmdline() ==# 'WQ' ? 'wqall' : 'WQ'
 ]])
