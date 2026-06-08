@@ -236,3 +236,4 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
     alias pbcopy="kitten clipboard"
 fi
 $HOME/dotfiles/sync_dotfiles.sh > /dev/null 2>&1
+set -o vi
