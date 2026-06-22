@@ -240,3 +240,4 @@ set -o vi
 
 # Use MacPorts nb with macOS system bash to avoid Bash 5.3 segmentation fault.
 alias nb="/bin/bash /opt/local/bin/nb"
+bindkey -e
