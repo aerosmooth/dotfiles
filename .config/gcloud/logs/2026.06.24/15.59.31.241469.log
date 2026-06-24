@@ -1,0 +1,691 @@
+2026-06-24 15:59:36,050 DEBUG    root            Failed to read GCE cache file: [Errno 2] No such file or directory: '/Users/sasaki/.config/gcloud/gce'
+2026-06-24 15:59:36,075 DEBUG    root            Failed to check metadata server: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+2026-06-24 15:59:36,075 DEBUG    root            On GCE from server: False
+2026-06-24 15:59:36,077 DEBUG    root            Loaded Command Group: ['gcloud', 'components']
+2026-06-24 15:59:36,080 DEBUG    root            Loaded Command Group: ['gcloud', 'components', 'list']
+2026-06-24 15:59:36,081 DEBUG    root            Running [gcloud.components.list] with arguments: [--quiet: "True"]
+2026-06-24 15:59:36,091 DEBUG    root            On GCE from memory cache: False
+2026-06-24 15:59:36,093 DEBUG    root            On GCE from memory cache: False
+2026-06-24 15:59:36,102 DEBUG    urllib3.connectionpool Starting new HTTPS connection (1): dl.google.com:443
+2026-06-24 15:59:36,183 DEBUG    urllib3.connectionpool https://dl.google.com:443 "GET /dl/cloudsdk/channels/rapid/components-2.json HTTP/1.1" 200 28057
+2026-06-24 15:59:36,207 INFO     ___FILE_ONLY___ 
+Your current Google Cloud CLI version is: 574.0.0
+
+2026-06-24 15:59:36,207 INFO     ___FILE_ONLY___ The latest available version is: 574.0.0
+
+2026-06-24 15:59:36,207 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,207 DEBUG    root            Chosen display Format:table[box,title="Components"](state.name:label=Status,name:label=Name,id:label=ID,size.size(zero="",min=1048576):label=Size:align=right)
+2026-06-24 15:59:36,208 INFO     root            Display format: "table[box,title="Components"](state.name:label=Status,name:label=Name,id:label=ID,size.size(zero="",min=1048576):label=Size:align=right)"
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ ┌─────────────────────────────────────────────────────────────────────────────────────────────────────────────────┐
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ │                                                    Components                                                   │
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ ├───────────────┬──────────────────────────────────────────────────────┬──────────────────────────────┬───────────┤
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ │     Status    │                         Name                         │              ID              │    Size   │
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ ├───────────────┼──────────────────────────────────────────────────────┼──────────────────────────────┼───────────┤
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ App Engine Go Extensions                            
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,241 INFO     ___FILE_ONLY___ app-engine-go               
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___   5.2 MiB
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Artifact Registry Go Module Package Helper          
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ package-go-module           
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Cloud Bigtable Command Line Tool                    
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ cbt                         
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  20.3 MiB
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Cloud Bigtable Emulator                             
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ bigtable                    
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___   8.1 MiB
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Cloud Datastore Emulator                            
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ cloud-datastore-emulator    
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  36.2 MiB
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,242 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Cloud Firestore Emulator                            
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ cloud-firestore-emulator    
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  65.1 MiB
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Cloud Pub/Sub Emulator                              
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ pubsub-emulator             
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  50.5 MiB
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Cloud Run Proxy                                     
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ cloud-run-proxy             
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  11.2 MiB
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Cloud SQL Proxy v2                                  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ cloud-sql-proxy             
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  14.8 MiB
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Google Container Registry's Docker credential helper
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ docker-credential-gcr       
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___          
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,243 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Kustomize                                           
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ kustomize                   
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___   5.2 MiB
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Log Streaming                                       
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ log-streaming               
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  16.9 MiB
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Managed Flink Client                                
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ managed-flink-client        
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ 383.4 MiB
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Minikube                                            
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ minikube                    
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  48.8 MiB
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Nomos CLI                                           
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ nomos                       
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  38.3 MiB
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,244 INFO     ___FILE_ONLY___ On-Demand Scanning API extraction helper            
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ local-extract               
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  36.5 MiB
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Skaffold                                            
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ skaffold                    
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  34.8 MiB
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Spanner Cli                                         
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ spanner-cli                 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  12.6 MiB
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Spanner migration tool                              
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ spanner-migration-tool      
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  46.9 MiB
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Terraform Tools                                     
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ terraform-tools             
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  64.0 MiB
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ anthos-auth                                         
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,245 INFO     ___FILE_ONLY___ anthos-auth                 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  27.9 MiB
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ config-connector                                    
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ config-connector            
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ 140.2 MiB
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ enterprise-certificate-proxy                        
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ enterprise-certificate-proxy
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  14.4 MiB
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ gcloud Alpha Commands                               
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ alpha                       
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ gcloud Beta Commands                                
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ beta                        
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ gcloud Preview Commands                             
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ preview                     
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,246 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ gcloud app Java Extensions                          
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ app-engine-java             
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 135.1 MiB
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ gcloud app Python Extensions                        
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ app-engine-python           
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___   3.8 MiB
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ gcloud app Python Extensions (Extra Libraries)      
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ app-engine-python-extras    
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ gke-gcloud-auth-plugin                              
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ gke-gcloud-auth-plugin      
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___   3.5 MiB
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ istioctl                                            
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ istioctl                    
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  26.4 MiB
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,247 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ kpt                                                 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ kpt                         
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  16.4 MiB
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ kubectl                                             
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ kubectl                     
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ kubectl-oidc                                        
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ kubectl-oidc                
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  27.9 MiB
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ pkg                                                 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ pkg                         
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___          
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ Not Installed
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ universal-maker                                     
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ universal-maker             
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___   8.3 MiB
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ Installed    
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___ BigQuery Command Line Tool                          
+2026-06-24 15:59:36,248 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ bq                          
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___   1.9 MiB
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Installed    
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Bundled Python 3.14                                 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ bundled-python3-unix        
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___   < 1 MiB
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Installed    
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Cloud Storage Command Line Tool                     
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ gsutil                      
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  12.4 MiB
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Installed    
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Google Cloud CLI Core Libraries                     
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ core                        
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  26.1 MiB
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Installed    
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ Google Cloud CRC32C Hash Tool                       
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ gcloud-crc32c               
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │ 
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___   1.5 MiB
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___  
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ │
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ └───────────────┴──────────────────────────────────────────────────────┴──────────────────────────────┴───────────┘
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ 
+
+2026-06-24 15:59:36,249 INFO     ___FILE_ONLY___ To install or remove components at your current Google Cloud CLI version [574.0.0], run:
+  $ gcloud components install COMPONENT_ID
+  $ gcloud components remove COMPONENT_ID
+
+To update your Google Cloud CLI installation to the latest version [574.0.0], run:
+  $ gcloud components update
+
+
+2026-06-24 16:00:13,873 DEBUG    root            Executing command: ['xcode-select', '-p']
+2026-06-24 16:00:13,894 DEBUG    root            Executing command: ['curl', '--silent', '-O', 'https://dl.google.com/dl/cloudsdk/channels/rapid/python-3.14.5-macos11.tar.gz']
+2026-06-24 16:00:15,356 DEBUG    root            Executing command: ['tar', '-xf', 'python-3.14.5-macos11.tar.gz']
+2026-06-24 16:00:15,487 DEBUG    root            Executing command: ['sudo', 'installer', '-target', '/', '-pkg', './python-3.14.5-macos11.pkg']
+2026-06-24 16:00:30,482 DEBUG    root            Loaded Command Group: ['gcloud']
+2026-06-24 16:00:30,489 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2026-06-24 16:00:30,490 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'virtualenv']
+2026-06-24 16:00:30,494 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'virtualenv', 'create']
+2026-06-24 16:00:30,495 DEBUG    root            Running [gcloud.config.virtualenv.create] with arguments: [--python-to-use: "/Library/Frameworks/Python.framework/Versions/3.14/bin/python3"]
+2026-06-24 16:00:30,495 INFO     ___FILE_ONLY___ Creating virtualenv...
+
+2026-06-24 16:00:30,495 DEBUG    root            Executing command: ['/Library/Frameworks/Python.framework/Versions/3.14/bin/python3', '-m', 'venv', '/Users/sasaki/.config/gcloud/virtenv']
+2026-06-24 16:00:31,910 DEBUG    ___FILE_ONLY___ 
+2026-06-24 16:00:31,910 DEBUG    ___FILE_ONLY___ 
+2026-06-24 16:00:31,910 INFO     ___FILE_ONLY___ Installing modules...
+
+2026-06-24 16:00:31,910 DEBUG    root            Executing command: ['/Users/sasaki/.config/gcloud/virtenv/bin/pip3', 'install', '--log', '/Users/sasaki/.config/gcloud/virtenv/install_module.log', '--disable-pip-version-check', 'crcmod', 'grpcio==1.80.0', 'pyopenssl==26.0.0', 'google_crc32c', 'certifi', 'https://github.com/googleapis/enterprise-certificate-proxy/releases/download/v0.3.15/cryptography-46.0.7-cp38-abi3-macosx_10_9_universal2.whl', 'setuptools']
+2026-06-24 16:00:41,109 DEBUG    root            Chosen display Format:default
+2026-06-24 16:00:41,110 INFO     root            Display format: "default"
+2026-06-24 16:00:41,111 DEBUG    root            Checking for updates...
+2026-06-24 16:00:41,111 DEBUG    root            On GCE from memory cache: False
+2026-06-24 16:00:41,112 DEBUG    root            On GCE from memory cache: False
+2026-06-24 16:00:41,114 DEBUG    urllib3.connectionpool Starting new HTTPS connection (1): dl.google.com:443
+2026-06-24 16:00:41,242 DEBUG    urllib3.connectionpool https://dl.google.com:443 "GET /dl/cloudsdk/channels/rapid/components-2.json HTTP/1.1" 200 28057
+2026-06-24 16:00:41,261 DEBUG    root            Updating notification cache...
+2026-06-24 16:00:41,264 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'virtualenv', 'enable']
+2026-06-24 16:00:41,265 DEBUG    root            Running [gcloud.config.virtualenv.enable] with arguments: []
+2026-06-24 16:00:41,266 INFO     ___FILE_ONLY___ Virtual env enabled.
+
+2026-06-24 16:00:41,266 DEBUG    root            Chosen display Format:default
+2026-06-24 16:00:41,266 INFO     root            Display format: "default"

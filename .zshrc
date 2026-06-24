@@ -241,3 +241,9 @@ set -o vi
 # Use MacPorts nb with macOS system bash to avoid Bash 5.3 segmentation fault.
 alias nb="/bin/bash /opt/local/bin/nb"
 bindkey -e
+
+# The next line updates PATH for the Google Cloud SDK.
+if [ -f '/Users/sasaki/google-cloud-sdk/path.zsh.inc' ]; then . '/Users/sasaki/google-cloud-sdk/path.zsh.inc'; fi
+
+# The next line enables shell command completion for gcloud.
+if [ -f '/Users/sasaki/google-cloud-sdk/completion.zsh.inc' ]; then . '/Users/sasaki/google-cloud-sdk/completion.zsh.inc'; fi
