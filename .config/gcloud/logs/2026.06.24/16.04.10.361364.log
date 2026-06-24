@@ -1,0 +1,9 @@
+2026-06-24 16:04:10,361 DEBUG    root            Loaded Command Group: ['gcloud', 'auth']
+2026-06-24 16:04:10,362 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application_default']
+2026-06-24 16:04:10,366 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application-default', 'revoke']
+2026-06-24 16:04:10,367 DEBUG    root            Running [gcloud.auth.application-default.revoke] with arguments: []
+2026-06-24 16:04:10,367 INFO     ___FILE_ONLY___ Application Default Credentials have not been set up, nothing to revoke.
+
+2026-06-24 16:04:10,367 DEBUG    root            Chosen display Format:none
+2026-06-24 16:04:10,367 INFO     root            Display format: "none"
+2026-06-24 16:04:10,383 DEBUG    root            On GCE from disk cache: False
