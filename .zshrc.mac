@@ -48,7 +48,7 @@ nvistat() {
 sync_results() {
     echo "Starting sync from v106..."
     # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v106:/home/sasaki/git/e2esr/mine/ ./results_all/bef_appro/v106/
-    rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v106:/home/sasaki/git/e2esr/appropriate_experiment/ ./results_all/v106/
+    rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v106:/home/sasaki/git/mye2esr/appropriate_experiment/ ./results_all/v106/
     
     echo "Starting sync from v101..."
     # rsync -avz --include='*/' --include='*.json' --include='*.png' --exclude='*' v101:/home/sasaki/git/mye2esr/mine/ ./results_all/bef_appro/v101/

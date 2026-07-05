@@ -1,0 +1,15 @@
+2026-06-29 10:43:07,666 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2026-06-29 10:43:07,667 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations']
+2026-06-29 10:43:07,668 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations', 'describe']
+2026-06-29 10:43:07,669 DEBUG    root            Running [gcloud.config.configurations.describe] with arguments: [--format: "value[separator=""](properties.core.account,properties.core.project)", CONFIGURATION_NAME: "default"]
+2026-06-29 10:43:07,669 DEBUG    root            Chosen display Format:default value[separator=""](properties.core.account,properties.core.project)
+2026-06-29 10:43:07,669 INFO     root            Display format: "default value[separator=""](properties.core.account,properties.core.project)"
+2026-06-29 10:43:07,691 INFO     ___FILE_ONLY___ 
+
+2026-06-29 10:43:07,707 DEBUG    root            Failed to check metadata server: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+2026-06-29 10:43:07,707 DEBUG    root            On GCE from server: False
+2026-06-29 10:43:07,708 DEBUG    root            Checking for updates...
+2026-06-29 10:43:07,711 DEBUG    root            On GCE from memory cache: False
+2026-06-29 10:43:07,712 DEBUG    root            On GCE from memory cache: False
+2026-06-29 10:43:07,716 DEBUG    urllib3.connectionpool Starting new HTTPS connection (1): dl.google.com:443
+2026-06-29 10:43:07,828 DEBUG    urllib3.connectionpool https://dl.google.com:443 "GET /dl/cloudsdk/channels/rapid/components-2.json HTTP/1.1" 200 28057

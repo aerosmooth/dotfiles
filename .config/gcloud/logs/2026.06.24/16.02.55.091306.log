@@ -1,0 +1,21 @@
+2026-06-24 16:02:55,093 DEBUG    root            Loaded Command Group: ['gcloud', 'auth']
+2026-06-24 16:02:55,094 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application_default']
+2026-06-24 16:02:55,123 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application-default', 'login']
+2026-06-24 16:02:55,124 DEBUG    root            Running [gcloud.auth.application-default.login] with arguments: [--scopes: "['https://www.googleapis.com/auth/drive.readonly']"]
+2026-06-24 16:02:55,124 DEBUG    root            On GCE from disk cache: False
+2026-06-24 16:02:55,124 WARNING  root            
+The following scopes will be blocked soon for the default client ID: https://www.googleapis.com/auth/drive.readonly.
+To use these scopes, you must provide your own client ID or use service account impersonation.
+Please refer to the documentation for more information: https://docs.cloud.google.com/docs/authentication/troubleshoot-adc#access_blocked_when_using_scopes
+2026-06-24 16:02:55,124 DEBUG    root            (gcloud.auth.application-default.login) Invalid value for [--scopes]: https://www.googleapis.com/auth/cloud-platform scope is required but not requested. Please include it in the --scopes flag.
+Traceback (most recent call last):
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 941, in Execute
+    resources = calliope_command.Run(cli=self, args=args)
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 968, in Run
+    resources = command_instance.Run(args)
+  File "/Users/sasaki/google-cloud-sdk/lib/surface/auth/application_default/login.py", line 270, in Run
+    raise c_exc.InvalidArgumentException(
+    ...<3 lines>...
+    )
+googlecloudsdk.calliope.exceptions.InvalidArgumentException: Invalid value for [--scopes]: https://www.googleapis.com/auth/cloud-platform scope is required but not requested. Please include it in the --scopes flag.
+2026-06-24 16:02:55,125 ERROR    root            (gcloud.auth.application-default.login) Invalid value for [--scopes]: https://www.googleapis.com/auth/cloud-platform scope is required but not requested. Please include it in the --scopes flag.

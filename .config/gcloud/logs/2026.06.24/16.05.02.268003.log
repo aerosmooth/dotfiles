@@ -1,0 +1,47 @@
+2026-06-24 16:05:02,268 DEBUG    root            Loaded Command Group: ['gcloud', 'auth']
+2026-06-24 16:05:02,269 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application_default']
+2026-06-24 16:05:02,278 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application-default', 'login']
+2026-06-24 16:05:02,279 DEBUG    root            Running [gcloud.auth.application-default.login] with arguments: [--client-id-file: "/path/to/oauth-client.json", --scopes: "['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/drive.readonly']"]
+2026-06-24 16:05:02,279 DEBUG    root            On GCE from disk cache: False
+2026-06-24 16:05:02,310 DEBUG    root            (gcloud.auth.application-default.login) Cannot read file: "/path/to/oauth-client.json".
+Traceback (most recent call last):
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/core/util/files.py", line 1307, in _FileOpener
+    return io.open(path, mode, encoding=encoding, newline=newline)
+           ~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '/path/to/oauth-client.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/api_lib/auth/util.py", line 389, in AssertClientSecretIsInstalledType
+    obj = json.loads(files.ReadFileContents(client_id_file))
+                     ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/core/util/files.py", line 1084, in ReadFileContents
+    with FileReader(path) as f:
+         ~~~~~~~~~~^^^^^^
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/core/util/files.py", line 1208, in FileReader
+    return _FileOpener(path, 'rt', 'read', encoding='utf-8')
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/core/util/files.py", line 1314, in _FileOpener
+    raise exc_type('Unable to {0} file [{1}]: {2}'.format(verb, path, e))
+googlecloudsdk.core.util.files.MissingFileError: Unable to read file [/path/to/oauth-client.json]: [Errno 2] No such file or directory: '/path/to/oauth-client.json'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/calliope/cli.py", line 941, in Execute
+    resources = calliope_command.Run(cli=self, args=args)
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/calliope/backend.py", line 968, in Run
+    resources = command_instance.Run(args)
+  File "/Users/sasaki/google-cloud-sdk/lib/surface/auth/application_default/login.py", line 275, in Run
+    creds = auth_util.DoInstalledAppBrowserFlowGoogleAuth(
+        scopes,
+    ...<4 lines>...
+        **flow_params
+    )
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/api_lib/auth/util.py", line 334, in DoInstalledAppBrowserFlowGoogleAuth
+    AssertClientSecretIsInstalledType(client_id_file)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "/Users/sasaki/google-cloud-sdk/lib/googlecloudsdk/api_lib/auth/util.py", line 391, in AssertClientSecretIsInstalledType
+    raise InvalidClientSecretsError(f'Cannot read file: "{client_id_file}".')
+googlecloudsdk.api_lib.auth.util.InvalidClientSecretsError: Cannot read file: "/path/to/oauth-client.json".
+2026-06-24 16:05:02,313 ERROR    root            (gcloud.auth.application-default.login) Cannot read file: "/path/to/oauth-client.json".
