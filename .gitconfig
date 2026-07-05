@@ -1,6 +1,7 @@
 [user]
 	name = Shota Sasaki
 	email = sasaki@fun.bio.keio.ac.jp
+	signingkey = /Users/sasaki/.ssh/id_ed25519_new.pub
 [color]
 	ui = true
 [http]
@@ -11,3 +12,9 @@
 	rebase = false
 [alias]
 	lgb = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset%n' --abbrev-commit --date=relative --branches
+[gpg]
+	format = ssh
+[commit]
+	gpgsign = true
+[tag]
+	gpgSign = true

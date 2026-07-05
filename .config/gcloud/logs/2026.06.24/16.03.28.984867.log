@@ -1,0 +1,21 @@
+2026-06-24 16:03:28,985 DEBUG    root            Loaded Command Group: ['gcloud', 'auth']
+2026-06-24 16:03:28,985 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application_default']
+2026-06-24 16:03:28,993 DEBUG    root            Loaded Command Group: ['gcloud', 'auth', 'application-default', 'login']
+2026-06-24 16:03:28,994 DEBUG    root            Running [gcloud.auth.application-default.login] with arguments: [--scopes: "['https://www.googleapis.com/auth/cloud-platform', 'https://www.googleapis.com/auth/drive.readonly']"]
+2026-06-24 16:03:28,994 DEBUG    root            On GCE from disk cache: False
+2026-06-24 16:03:28,994 WARNING  root            
+The following scopes will be blocked soon for the default client ID: https://www.googleapis.com/auth/drive.readonly.
+To use these scopes, you must provide your own client ID or use service account impersonation.
+Please refer to the documentation for more information: https://docs.cloud.google.com/docs/authentication/troubleshoot-adc#access_blocked_when_using_scopes
+2026-06-24 16:03:29,066 DEBUG    root            On GCE from memory cache: False
+2026-06-24 16:03:29,079 DEBUG    requests_oauthlib.oauth2_session Generated new state yIsgsusWcS6FtTnYIYblfKuf2nouLu.
+2026-06-24 16:03:29,312 INFO     ___FILE_ONLY___ Your browser has been opened to visit:
+
+    https://accounts.google.com/o/oauth2/auth?response_type=code&client_id=764086051850-6qr4p6gpi6hn506pt8ejuq83di341hur.apps.googleusercontent.com&redirect_uri=http%3A%2F%2Flocalhost%3A8085%2F&scope=https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fcloud-platform+https%3A%2F%2Fwww.googleapis.com%2Fauth%2Fdrive.readonly&state=yIsgsusWcS6FtTnYIYblfKuf2nouLu&access_type=offline&code_challenge=Wb-PgEy4aKiWmjyjDrcQcS5L6iEob_zLoCvvdsWYKjY&code_challenge_method=S256
+
+
+2026-06-24 16:04:08,453 INFO     ___FILE_ONLY___ 
+
+Command killed by keyboard interrupt
+
+

@@ -236,8 +236,4 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
     alias pbcopy="kitten clipboard"
 fi
 $HOME/dotfiles/sync_dotfiles.sh > /dev/null 2>&1
-
-# Use MacPorts nb with macOS system bash to avoid Bash 5.3 segmentation fault.
-alias nb="/bin/bash /opt/local/bin/nb"
-bindkey -e
-
+set -o vi

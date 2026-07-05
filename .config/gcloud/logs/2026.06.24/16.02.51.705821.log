@@ -1,0 +1,9 @@
+2026-06-24 16:02:51,707 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2026-06-24 16:02:51,710 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations']
+2026-06-24 16:02:51,712 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations', 'describe']
+2026-06-24 16:02:51,712 DEBUG    root            Running [gcloud.config.configurations.describe] with arguments: [--format: "value[separator=""](properties.core.account,properties.core.project)", CONFIGURATION_NAME: "default"]
+2026-06-24 16:02:51,713 DEBUG    root            Chosen display Format:default value[separator=""](properties.core.account,properties.core.project)
+2026-06-24 16:02:51,713 INFO     root            Display format: "default value[separator=""](properties.core.account,properties.core.project)"
+2026-06-24 16:02:51,733 INFO     ___FILE_ONLY___ 
+
+2026-06-24 16:02:51,737 DEBUG    root            On GCE from disk cache: False
