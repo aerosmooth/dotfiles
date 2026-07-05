@@ -1,3 +1,5 @@
 .DS_Store
 .zshrc.local
 qiita-cli
+# dotfilesの .gitignore
+.gitconfig.local
