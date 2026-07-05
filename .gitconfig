@@ -1,7 +1,6 @@
 [user]
 	name = Shota Sasaki
 	email = sasaki@fun.bio.keio.ac.jp
-	signingkey = /Users/sasaki/.ssh/id_ed25519_new.pub
 [color]
 	ui = true
 [http]
@@ -18,3 +17,5 @@
 	gpgsign = true
 [tag]
 	gpgSign = true
+[include]
+  path = ~/.gitconfig.local
