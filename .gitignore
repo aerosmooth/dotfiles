@@ -3,3 +3,4 @@
 qiita-cli
 # dotfilesの .gitignore
 .gitconfig.local
+.config/gcloud/*
