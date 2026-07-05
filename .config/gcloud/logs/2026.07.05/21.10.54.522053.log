@@ -1,0 +1,10 @@
+2026-07-05 21:10:54,525 DEBUG    root            Loaded Command Group: ['gcloud', 'config']
+2026-07-05 21:10:54,526 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations']
+2026-07-05 21:10:54,527 DEBUG    root            Loaded Command Group: ['gcloud', 'config', 'configurations', 'describe']
+2026-07-05 21:10:54,528 DEBUG    root            Running [gcloud.config.configurations.describe] with arguments: [--format: "value[separator=""](properties.core.account,properties.core.project)", CONFIGURATION_NAME: "default"]
+2026-07-05 21:10:54,529 DEBUG    root            Chosen display Format:default value[separator=""](properties.core.account,properties.core.project)
+2026-07-05 21:10:54,529 INFO     root            Display format: "default value[separator=""](properties.core.account,properties.core.project)"
+2026-07-05 21:10:54,558 INFO     ___FILE_ONLY___ 
+
+2026-07-05 21:10:54,575 DEBUG    root            Failed to check metadata server: <urlopen error [Errno 8] nodename nor servname provided, or not known>
+2026-07-05 21:10:54,575 DEBUG    root            On GCE from server: False
