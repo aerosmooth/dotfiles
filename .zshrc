@@ -241,3 +241,4 @@ $HOME/dotfiles/sync_dotfiles.sh > /dev/null 2>&1
 alias nb="/bin/bash /opt/local/bin/nb"
 bindkey -e
 
+export PATH="$(npm config get prefix)/bin:$PATH"
