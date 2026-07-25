@@ -243,3 +243,4 @@ bindkey -e
 
 export PATH="$(npm config get prefix)/bin:$PATH"
 export PATH="$(npm config get prefix)/bin:$PATH"
+ssh-add --apple-load-keychain >/dev/null 2>&1
