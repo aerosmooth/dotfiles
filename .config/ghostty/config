@@ -1,3 +1,6 @@
+# Match kitty's green "Box" theme.
+theme = Box
+
 # Keep macOS Option behavior consistent with kitty.
 macos-option-as-alt = true
 
