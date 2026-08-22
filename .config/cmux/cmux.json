@@ -8,6 +8,12 @@
   // cmux creates this template on launch when ~/.config/cmux/cmux.json is missing.
   // Legacy settings.json files are read only as fallback for keys not present here.
 
+  // Keep workspace order stable and inherit the current working directory.
+  "app": {
+    "reorderOnNotification": false,
+    "workspaceInheritWorkingDirectory": true
+  },
+
   //   "app" : {
   //     "reorderOnNotification" : true,
   //     "appIcon" : "automatic",

@@ -1,8 +1,31 @@
-# Match kitty's green "Box" theme.
+# Keep the requested green look while adopting the article's terminal settings.
 theme = Box
+background-opacity = 1.0
+
+# The installed Nerd Font variant keeps prompt icons working.
+font-family = FiraCode Nerd Font
+font-size = 14
+font-style = Regular
+font-feature = +calt
+font-feature = +liga
+
+cursor-color = #ff2c6d
+cursor-style = block
+cursor-style-blink = true
+
+window-padding-x = 25
+window-padding-y = 25
+window-padding-color = extend
+
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = clipboard
 
 # Keep macOS Option behavior consistent with kitty.
 macos-option-as-alt = true
+
+# Send an escaped newline for REPLs and AI terminal apps.
+keybind = shift+enter=text:\x1b\r
 
 # kitty-style terminal shortcuts. These use Ctrl-s so they do not conflict
 # with the Ctrl-q chord handled by cmux itself.
