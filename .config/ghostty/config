@@ -7,9 +7,8 @@ font-family = FiraCode Nerd Font
 font-size = 14
 font-style = Regular
 font-feature = +calt
-font-feature = +liga
 
-cursor-color = #ff2c6d
+# Keep the Box theme's green cursor instead of the article's pink cursor.
 cursor-style = block
 cursor-style-blink = true
 
@@ -17,7 +16,8 @@ window-padding-x = 25
 window-padding-y = 25
 window-padding-color = extend
 
-clipboard-read = allow
+# Ask before a terminal program reads the macOS clipboard.
+clipboard-read = ask
 clipboard-write = allow
 copy-on-select = clipboard
 
