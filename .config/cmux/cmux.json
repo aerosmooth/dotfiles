@@ -417,7 +417,7 @@
       "focusRight": ["ctrl+q", "l"],
       "focusPreviousPane": ["ctrl+q", ";"],
       "focusNextPane": ["ctrl+q", "o"],
-      "splitRight": ["ctrl+q", "|"],
+      "splitRight": ["ctrl+q", "shift+backslash"],
       "splitDown": ["ctrl+q", "-"],
       "toggleSplitZoom": ["ctrl+q", "z"],
       "toggleTerminalCopyMode": ["ctrl+q", "["],
