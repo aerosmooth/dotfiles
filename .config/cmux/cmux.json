@@ -401,6 +401,8 @@
 
   // tmux-style shortcuts mirrored from ~/.tmux.conf.mac (prefix: Ctrl-q).
   // cmux supports one- and two-stroke shortcuts natively.
+  // Ctrl-q H/J/K/L (resize) and Ctrl-q Ctrl-p (paste-buffer) are omitted:
+  // cmux 0.64.22 has no safe app-level shortcut actions for them.
   "shortcuts": {
     "bindings": {
       "newSurface": ["ctrl+q", "c"],

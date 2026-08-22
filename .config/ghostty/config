@@ -3,6 +3,8 @@ macos-option-as-alt = true
 
 # kitty-style terminal shortcuts. These use Ctrl-s so they do not conflict
 # with the Ctrl-q chord handled by cmux itself.
+# Scrollback opens in the macOS default text editor rather than a kitty overlay.
+# kitty's URL/path hints have no matching Ghostty action.
 keybind = ctrl+s>[=write_scrollback_file:open
 keybind = ctrl+s>ctrl+[=write_scrollback_file:open
 keybind = ctrl+s>escape=write_scrollback_file:open
