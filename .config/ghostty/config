@@ -12,6 +12,10 @@ font-feature = +calt
 cursor-style = block
 cursor-style-blink = true
 
+# Restore a kitty-like cursor trail. Animate only the focused pane.
+custom-shader = shaders/cursor_tail.glsl
+custom-shader-animation = true
+
 window-padding-x = 25
 window-padding-y = 25
 window-padding-color = extend
