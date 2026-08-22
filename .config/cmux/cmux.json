@@ -398,4 +398,28 @@
   //       "toggleSidebar" : "cmd+b"
   //     }
   //   },
+
+  // tmux-style shortcuts mirrored from ~/.tmux.conf.mac (prefix: Ctrl-q).
+  // cmux supports one- and two-stroke shortcuts natively.
+  "shortcuts": {
+    "bindings": {
+      "newSurface": ["ctrl+q", "c"],
+      "closeTab": ["ctrl+q", "x"],
+      "nextSurface": ["ctrl+q", "n"],
+      "prevSurface": ["ctrl+q", "p"],
+      "selectSurfaceByNumber": ["ctrl+q", "1"],
+      "renameTab": ["ctrl+q", ","],
+      "focusLeft": ["ctrl+q", "h"],
+      "focusDown": ["ctrl+q", "j"],
+      "focusUp": ["ctrl+q", "k"],
+      "focusRight": ["ctrl+q", "l"],
+      "focusPreviousPane": ["ctrl+q", ";"],
+      "focusNextPane": ["ctrl+q", "o"],
+      "splitRight": ["ctrl+q", "|"],
+      "splitDown": ["ctrl+q", "-"],
+      "toggleSplitZoom": ["ctrl+q", "z"],
+      "toggleTerminalCopyMode": ["ctrl+q", "["],
+      "equalizeSplits": ["ctrl+q", "="]
+    }
+  }
 }

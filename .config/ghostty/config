@@ -1,1 +1,10 @@
+# Keep macOS Option behavior consistent with kitty.
+macos-option-as-alt = true
 
+# kitty-style terminal shortcuts. These use Ctrl-s so they do not conflict
+# with the Ctrl-q chord handled by cmux itself.
+keybind = ctrl+s>[=write_scrollback_file:open
+keybind = ctrl+s>ctrl+[=write_scrollback_file:open
+keybind = ctrl+s>escape=write_scrollback_file:open
+keybind = ctrl+s>]=paste_from_clipboard
+keybind = ctrl+s>ctrl+]=paste_from_clipboard
