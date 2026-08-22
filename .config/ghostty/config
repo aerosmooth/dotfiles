@@ -2,8 +2,8 @@
 theme = Box
 background-opacity = 1.0
 
-# The installed Nerd Font variant keeps prompt icons working.
-font-family = FiraCode Nerd Font
+# Match kitty exactly while keeping prompt icons working.
+font-family = JetBrainsMono Nerd Font Mono
 font-size = 14
 font-style = Regular
 font-feature = +calt
