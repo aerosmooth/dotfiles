@@ -31,6 +31,9 @@ macos-option-as-alt = true
 # Send an escaped newline for REPLs and AI terminal apps.
 keybind = shift+enter=text:\x1b\r
 
+# Make Ctrl-[ behave exactly like Escape.
+keybind = ctrl+[=text:\x1b
+
 # kitty-style terminal shortcuts. These use Ctrl-s so they do not conflict
 # with the Ctrl-q chord handled by cmux itself.
 # Scrollback opens in the macOS default text editor rather than a kitty overlay.
