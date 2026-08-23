@@ -210,8 +210,8 @@ alias deac='deactivate'
 alias gitlog='git log --oneline --graph --decorate'
 alias pipupgrade='pip install --upgrade pip'
 alias ssd='/Volumes/sasaki_SSD/research'
-alias youtube='open "https://www.youtube.com/"'
-alias music='open "https://music.youtube.com/"'
+alias youtube='cmux new-surface --type browser --url "https://www.youtube.com/" --focus true'
+alias music='cmux new-surface --type browser --url "https://music.youtube.com/" --focus true'
 # alias unmount_ssd='disk_id=$(diskutil list | grep "sasaki_SSD" | awk '{print $NF}')'
 # エイリアス: 外付けSSD 'sasaki_SSD' を安全に取り出す
 # ==============================================================================
