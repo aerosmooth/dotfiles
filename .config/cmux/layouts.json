@@ -1,0 +1,90 @@
+{
+  "layouts" : [
+    {
+      "name" : "research",
+      "workspace" : {
+        "cwd" : "/Users/sasaki/research/git/e2esr",
+        "layout" : {
+          "children" : [
+            {
+              "children" : [
+                {
+                  "pane" : {
+                    "surfaces" : [
+                      {
+                        "name" : "local",
+                        "type" : "terminal"
+                      },
+                      {
+                        "focus" : true,
+                        "name" : "remote",
+                        "type" : "terminal"
+                      },
+                      {
+                        "type" : "browser"
+                      },
+                      {
+                        "type" : "terminal"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane" : {
+                    "surfaces" : [
+                      {
+                        "name" : "deri",
+                        "type" : "terminal"
+                      },
+                      {
+                        "type" : "terminal"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "direction" : "vertical",
+              "split" : 0.5
+            },
+            {
+              "children" : [
+                {
+                  "pane" : {
+                    "surfaces" : [
+                      {
+                        "name" : "D-2",
+                        "type" : "terminal"
+                      },
+                      {
+                        "name" : "D-4",
+                        "type" : "terminal"
+                      }
+                    ]
+                  }
+                },
+                {
+                  "pane" : {
+                    "surfaces" : [
+                      {
+                        "name" : "D-3",
+                        "type" : "terminal"
+                      },
+                      {
+                        "name" : "D-5",
+                        "type" : "terminal"
+                      }
+                    ]
+                  }
+                }
+              ],
+              "direction" : "vertical",
+              "split" : 0.5
+            }
+          ],
+          "direction" : "horizontal",
+          "split" : 0.5
+        }
+      }
+    }
+  ]
+}
