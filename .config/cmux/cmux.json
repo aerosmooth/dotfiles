@@ -11,7 +11,10 @@
   // Keep workspace order stable and inherit the current working directory.
   "app": {
     "reorderOnNotification": false,
-    "workspaceInheritWorkingDirectory": true
+    "workspaceInheritWorkingDirectory": true,
+    "confirmQuit": "dirty-only",
+    "commandPaletteSearchesAllSurfaces": true,
+    "focusHistoryIncludesPanesAndTabs": true
   },
 
   //   "app" : {
