@@ -24,11 +24,6 @@ export JAVA_HOME=/opt/local/Library/Java/JavaVirtualMachines/openjdk11-zulu/Cont
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-# Ctrl+P / Ctrl+N で履歴検索
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
-#フルパスの補完
-bindkey "^[/" expand-cmd-path
 #slashとか
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<'
 #colors
@@ -240,7 +235,34 @@ $HOME/dotfiles/sync_dotfiles.sh > /dev/null 2>&1
 # Use MacPorts nb with macOS system bash to avoid Bash 5.3 segmentation fault.
 alias nb="/bin/bash /opt/local/bin/nb"
 bindkey -e
+# Ctrl+P / Ctrl+N で履歴検索
+bindkey "^P" history-beginning-search-backward-end
+bindkey "^N" history-beginning-search-forward-end
+#フルパスの補完
+bindkey "^[/" expand-cmd-path
 
 export PATH="$(npm config get prefix)/bin:$PATH"
 export PATH="$(npm config get prefix)/bin:$PATH"
 ssh-add --apple-load-keychain >/dev/null 2>&1
+
+# Keyboard-first terminal tools.
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh)"
+fi
+
+if (( $+commands[atuin] )); then
+    eval "$(atuin init zsh --disable-up-arrow)"
+fi
+
+if (( $+commands[yazi] )); then
+    function y() {
+        local tmp cwd
+        tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+        command yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d '' cwd < "$tmp"
+        if [[ -n "$cwd" && "$cwd" != "$PWD" && -d "$cwd" ]]; then
+            builtin cd -- "$cwd"
+        fi
+        rm -f -- "$tmp"
+    }
+fi
