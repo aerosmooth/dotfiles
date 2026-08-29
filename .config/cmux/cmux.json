@@ -414,6 +414,10 @@
   // cmux 0.64.22 has no safe app-level shortcut actions for them.
   "shortcuts": {
     "bindings": {
+      "prevSidebarTab": "cmd+[",
+      "nextSidebarTab": "cmd+]",
+      "focusHistoryBack": "",
+      "focusHistoryForward": "",
       "newSurface": ["ctrl+q", "c"],
       "closeTab": ["ctrl+q", "x"],
       "nextSurface": ["ctrl+q", "n"],
