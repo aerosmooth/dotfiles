@@ -14,7 +14,7 @@
     "workspaceInheritWorkingDirectory": true,
     "confirmQuit": "dirty-only",
     "commandPaletteSearchesAllSurfaces": true,
-    "focusHistoryIncludesPanesAndTabs": true
+    "focusHistoryIncludesPanesAndTabs": false
   },
 
   //   "app" : {
