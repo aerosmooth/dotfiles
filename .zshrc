@@ -266,3 +266,6 @@ if (( $+commands[yazi] )); then
         command rm -f -- "$tmp"
     }
 fi
+
+# opencode
+export PATH=/Users/sasaki/.opencode/bin:$PATH
