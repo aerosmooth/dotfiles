@@ -269,4 +269,4 @@ fi
 
 # opencode
 export PATH=/Users/sasaki/.opencode/bin:$PATH
-export PATH="$(npm config get prefix)/bin:$PATH"
+export PATH="$HOME/.local/bin:$PATH"
