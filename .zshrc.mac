@@ -5,7 +5,7 @@
 export BAT_THEME="ansi"
 export DISPLAY=:0
 alias install_kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /dev/stdin"
-path=($HOME/.local/lib/npm/bin /Applications/kitty.app/ Contents/MacOS $path)
+path=($HOME/.local/lib/npm/bin "/Applications/kitty.app/Contents/MacOS" $path)
 path=($HOME/.local/bin $path)
 
 # Disable cmux's per-invocation Codex hooks so hook trust checks stay enabled.
