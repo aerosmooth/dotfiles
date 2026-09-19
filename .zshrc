@@ -269,3 +269,4 @@ fi
 
 # opencode
 export PATH=/Users/sasaki/.opencode/bin:$PATH
+export PATH=/Users/sasaki/.local/bin:$PATH
