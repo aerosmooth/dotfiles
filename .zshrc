@@ -60,6 +60,7 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 #上書きを防ぐ
 setopt NO_CLOBBER
+setopt APPEND_CREATE
 #実行中のジョブを呼び出す時に先頭1文字で選べる
 setopt AUTORESUME
 #名前の変更
