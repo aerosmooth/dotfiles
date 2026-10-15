@@ -17,6 +17,13 @@
     "focusHistoryIncludesPanesAndTabs": false
   },
 
+  // Hibernate idle agent terminals to save memory.
+  "terminal": {
+    "agentHibernation": {
+      "enabled": true
+    }
+  },
+
   //   "app" : {
   //     "reorderOnNotification" : true,
   //     "appIcon" : "automatic",
