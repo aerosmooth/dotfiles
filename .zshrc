@@ -170,7 +170,7 @@ restore-nvim() {
   fi
 }
 function chpwd() {
-    ls -G
+    ls
 }
 # 環境変数 NVIM_AUTO_PICKERをセットしてから nvim を起動
 alias nvimed='NVIM_AUTO_PICKER=config nvim'

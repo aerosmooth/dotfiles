@@ -27,7 +27,7 @@ https://github.com/sahaj-b/ghostty-cursor-shaders/blob/0a274beac8b93ee6ce6b94402
 Adjusted for the previous kitty cursor_trail settings:
 - Use the active Box cursor color.
 - Start after a two-cell move.
-- Use a short, visible 0.18 second decay.
+- Use a visible 0.30 second decay.
 */
 
 vec3 sRGBToLinear(vec3 color) {
@@ -43,8 +43,8 @@ vec4 TRAIL_COLOR = vec4(
     iCurrentCursorColor.a
 );
 
-const float DURATION = 0.18;
-const float MAX_TRAIL_LENGTH = 0.2;
+const float DURATION = 0.30;
+const float MAX_TRAIL_LENGTH = 0.4;
 const float THRESHOLD_MIN_DISTANCE = 2.0;
 const float BLUR = 2.0;
 
