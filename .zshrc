@@ -24,11 +24,6 @@ export JAVA_HOME=/opt/local/Library/Java/JavaVirtualMachines/openjdk11-zulu/Cont
 autoload history-search-end
 zle -N history-beginning-search-backward-end history-search-end
 zle -N history-beginning-search-forward-end history-search-end
-# Ctrl+P / Ctrl+N で履歴検索
-bindkey "^P" history-beginning-search-backward-end
-bindkey "^N" history-beginning-search-forward-end
-#フルパスの補完
-bindkey "^[/" expand-cmd-path
 #slashとか
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<'
 #colors
@@ -65,6 +60,7 @@ setopt AUTO_PUSHD
 setopt PUSHD_IGNORE_DUPS
 #上書きを防ぐ
 setopt NO_CLOBBER
+setopt APPEND_CREATE
 #実行中のジョブを呼び出す時に先頭1文字で選べる
 setopt AUTORESUME
 #名前の変更
@@ -236,4 +232,46 @@ if [[ "$TERM" == "xterm-kitty" ]]; then
     alias pbcopy="kitten clipboard"
 fi
 $HOME/dotfiles/sync_dotfiles.sh > /dev/null 2>&1
-set -o vi
+
+# Use MacPorts nb with macOS system bash to avoid Bash 5.3 segmentation fault.
+alias nb="/bin/bash /opt/local/bin/nb"
+bindkey -e
+# Keep history keys available in both Emacs and vi modes.
+bindkey -M emacs "^P" history-beginning-search-backward-end
+bindkey -M emacs "^N" history-beginning-search-forward-end
+bindkey -M viins "^P" history-beginning-search-backward-end
+bindkey -M viins "^N" history-beginning-search-forward-end
+bindkey -M vicmd "^P" history-beginning-search-backward-end
+bindkey -M vicmd "^N" history-beginning-search-forward-end
+#フルパスの補完
+bindkey "^[/" expand-cmd-path
+
+export PATH="$(npm config get prefix)/bin:$PATH"
+export PATH="$(npm config get prefix)/bin:$PATH"
+ssh-add --apple-load-keychain >/dev/null 2>&1
+
+# Keyboard-first terminal tools.
+if (( $+commands[zoxide] )); then
+    eval "$(zoxide init zsh)"
+fi
+
+if (( $+commands[atuin] )); then
+    eval "$(atuin init zsh --disable-up-arrow)"
+fi
+
+if (( $+commands[yazi] )); then
+    function y() {
+        local tmp cwd
+        tmp="$(mktemp -t "yazi-cwd.XXXXXX")"
+        command yazi "$@" --cwd-file="$tmp"
+        IFS= read -r -d '' cwd < "$tmp"
+        if [[ -n "$cwd" && "$cwd" != "$PWD" && -d "$cwd" ]]; then
+            builtin cd -- "$cwd"
+        fi
+        command rm -f -- "$tmp"
+    }
+fi
+
+# opencode
+export PATH=/Users/sasaki/.opencode/bin:$PATH
+export PATH="$HOME/.local/bin:$PATH"

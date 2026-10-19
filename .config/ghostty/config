@@ -1,0 +1,45 @@
+# Keep the requested green look while adopting the article's terminal settings.
+theme = Box
+background-opacity = 1.0
+
+# Match kitty exactly while keeping prompt icons working.
+font-family = JetBrainsMono Nerd Font Mono
+font-size = 14
+font-style = Regular
+font-feature = +calt
+
+# Keep the Box theme's green cursor instead of the article's pink cursor.
+cursor-style = block
+cursor-style-blink = true
+
+# Restore a kitty-like cursor trail. Animate only the focused pane.
+custom-shader = shaders/cursor_tail.glsl
+custom-shader-animation = true
+
+window-padding-x = 25
+window-padding-y = 25
+window-padding-color = extend
+
+# Let terminal programs read the macOS clipboard without asking.
+clipboard-read = allow
+clipboard-write = allow
+copy-on-select = clipboard
+
+# Keep macOS Option behavior consistent with kitty.
+macos-option-as-alt = true
+
+# Send an escaped newline for REPLs and AI terminal apps.
+keybind = shift+enter=text:\x1b\r
+
+# Make Ctrl-[ behave exactly like Escape.
+keybind = ctrl+[=text:\x1b
+
+# kitty-style terminal shortcuts. These use Ctrl-s so they do not conflict
+# with the Ctrl-q chord handled by cmux itself.
+# Scrollback opens in the macOS default text editor rather than a kitty overlay.
+# kitty's URL/path hints have no matching Ghostty action.
+keybind = ctrl+s>[=write_scrollback_file:open
+keybind = ctrl+s>ctrl+[=write_scrollback_file:open
+keybind = ctrl+s>escape=write_scrollback_file:open
+keybind = ctrl+s>]=paste_from_clipboard
+keybind = ctrl+s>ctrl+]=paste_from_clipboard

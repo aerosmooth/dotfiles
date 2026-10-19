@@ -1,0 +1,23 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "hackathon/deepseek-v4-flash",
+  "provider": {
+    "hackathon": {
+      "npm": "@ai-sdk/openai-compatible",
+      "name": "Hackathon LLM",
+      "options": {
+        "baseURL": "https://api.r-prog-event.net/v1",
+        "apiKey": "sk-e44dn-r27yz-vhgnh-5k6db-5m3w2"
+      },
+      "models": {
+        "deepseek-v4-flash": {
+          "name": "DeepSeek V4-Flash",
+          "limit": {
+            "context": 120000,
+            "output": 8192
+          }
+        }
+      }
+    }
+  }
+}
