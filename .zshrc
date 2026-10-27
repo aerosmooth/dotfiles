@@ -275,3 +275,5 @@ fi
 # opencode
 export PATH=/Users/sasaki/.opencode/bin:$PATH
 export PATH="$HOME/.local/bin:$PATH"
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
