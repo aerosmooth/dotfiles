@@ -8,18 +8,26 @@ alias install_kitty="curl -L https://sw.kovidgoyal.net/kitty/installer.sh | sh /
 path=($HOME/.local/lib/npm/bin "/Applications/kitty.app/Contents/MacOS" $path)
 path=($HOME/.local/bin $path)
 
-# Disable cmux's per-invocation Codex hooks so hook trust checks stay enabled.
-export CMUX_CODEX_HOOKS_DISABLED=1
-
-# Keep the cmux wrapper available for easy re-enabling.
-# CMUX_CODEX_HOOKS_DISABLED makes it pass through to the normal Codex command.
-codex() {
-  local cmux_codex_wrapper="/Applications/cmux.app/Contents/Resources/bin/cmux-codex-wrapper"
-  if [[ -n "${CMUX_SURFACE_ID:-}" && -x "$cmux_codex_wrapper" ]]; then
-    /bin/bash "$cmux_codex_wrapper" "$@"
+# Launch Claude through cmux's wrapper so cmux's notification hooks are injected.
+# cmux defines the same function, but `exec zsh` drops it.
+unalias claude 2>/dev/null
+claude() {
+  local cmux_claude_wrapper="/Applications/cmux.app/Contents/Resources/bin/cmux-claude-wrapper"
+  if [[ -n "${CMUX_SURFACE_ID:-}" && -x "$cmux_claude_wrapper" ]]; then
+    "$cmux_claude_wrapper" "$@"
   else
-    command codex "$@"
+    command claude "$@"
   fi
+}
+
+# Skip cmux's per-invocation Codex hooks so hook trust checks stay enabled.
+# cmux notifications come from the persistent hooks in ~/.codex/hooks.json.
+# Do not set CMUX_CODEX_HOOKS_DISABLED=1: those hooks exit early on it, and the
+# wrapper then strips every CMUX_* variable they need.
+# To re-enable per-invocation hooks, run
+# /Applications/cmux.app/Contents/Resources/bin/cmux-codex-wrapper here instead.
+codex() {
+  command codex "$@"
 }
 
 replace_all() {
