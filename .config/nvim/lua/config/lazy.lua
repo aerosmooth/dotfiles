@@ -37,6 +37,8 @@ require("lazy").setup({
   }, -- automatically check for plugin updates
   performance = {
     rtp = {
+      -- Debian/Ubuntu packages ship bundled parsers (vim, lua, ...) in a multiarch dir that the rtp reset drops
+      paths = vim.fn.glob("/usr/lib/*-linux-gnu/nvim", false, true),
       -- disable some rtp plugins
       disabled_plugins = {
         "gzip",
