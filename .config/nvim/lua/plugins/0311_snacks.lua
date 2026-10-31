@@ -1,10 +1,11 @@
 return {
   "snacks.nvim",
-  opts = function()
+  -- opts を受け取って上書きする（新しい表を返すと LazyVim の snacks 既定設定が消える）
+  opts = function(_, opts)
     -- pokemon-colorscriptsが実行可能かチェック
     if vim.fn.executable("pokemon-colorscripts") ~= 1 then
       -- なければLAZYVIMのロゴを表示
-      return {
+      return vim.tbl_deep_extend("force", opts, {
         notifier = { enabled = true },
         dashboard = {
           sections = {
@@ -23,7 +24,7 @@ return {
             { section = "startup" },
           },
         },
-      }
+      })
     end
 
     -- 色違いにするかどうかのフラグを確率で決める
@@ -40,7 +41,7 @@ return {
     -- 最終的なコマンドを組み立てる
     local cmd = string.format("pokemon-colorscripts --no-title -rn %s %s", pokemon_list, shiny_flag)
 
-    return {
+    return vim.tbl_deep_extend("force", opts, {
       notifier = { enabled = true },
       dashboard = {
         sections = {
@@ -54,6 +55,6 @@ return {
           { section = "startup" },
         },
       },
-    }
+    })
   end,
 }
