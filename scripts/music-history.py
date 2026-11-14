@@ -9,6 +9,8 @@ from pathlib import Path
 import re
 import sqlite3
 import signal
+import queue
+import threading
 import subprocess
 from urllib.parse import urlsplit
 import sys
@@ -122,38 +124,149 @@ def probe_browser_source(data):
         return {"status": "unverified"}
 
 
-def watch_player(player):
-    """Resolve browser source off the prompt thread, then forward JSON events."""
-    child = None
+
+MIN_LISTEN_SECONDS = 5.0
+HEARTBEAT_SECONDS = 1.0
+MAX_SAMPLE_GAP = 3.0
+
+
+def observation_time(data, now=None):
+    if now is not None:
+        return now
+    value = number(data.get("_observed_at"))
+    return value if value is not None else time.time()
+
+
+def playback_position(data, observed_at):
+    value = number(data.get("elapsedTimeNow"))
+    if value is not None:
+        return value
+    value = number(data.get("elapsedTime"))
+    if value is None:
+        return None
+    if data.get("playing") is True:
+        rate = number(data.get("playbackRate"))
+        rate = 1.0 if rate is None else rate
+        value += max(0, observed_at - event_time(data, observed_at)) * rate
+    return value
+
+
+def suspend_pending(db_path, observed_at):
+    """Do not credit time spent in an excluded or unverified source."""
+    path = Path(db_path)
+    if not path.exists():
+        return
+    con = sqlite3.connect(path, timeout=0.5, isolation_level=None)
+    try:
+        con.execute("BEGIN IMMEDIATE")
+        row = con.execute("SELECT data FROM state WHERE id=1").fetchone()
+        if row:
+            state = json.loads(row[0])
+            last_seen = state.get("observed_at", observed_at)
+            if observed_at >= last_seen and state.get("playing"):
+                state.update(playing=False, observed_at=observed_at)
+                con.execute("UPDATE state SET data=? WHERE id=1",
+                            (json.dumps(state, ensure_ascii=False),))
+        con.execute("COMMIT")
+    finally:
+        con.close()
+
+
+def emit_update(message, text):
+    message["_display"] = text
+    print(json.dumps(message, ensure_ascii=False), flush=True)
+
+
+def watch_player(player, db_path=DEFAULT_DB):
+    """Record in the background; sample pending plays even without stream events."""
+    child = reader = None
+    events = queue.Queue()
 
     def stop(signum, frame):
         raise SystemExit(0)
 
+    def read_events():
+        try:
+            for line in child.stdout:
+                events.put(line)
+        except (OSError, ValueError):
+            pass
+        finally:
+            events.put(None)
+
     previous = signal.signal(signal.SIGTERM, stop)
+    next_check = None
+    last_text = None
     try:
         child = subprocess.Popen(
             [player, "stream", "--no-diff", "--no-artwork", "--debounce=250"],
             stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
         )
-        for line in child.stdout:
+        reader = threading.Thread(target=read_events, daemon=True)
+        reader.start()
+        while True:
+            timeout = None if next_check is None else max(0, next_check - time.monotonic())
             try:
+                line = events.get(timeout=timeout)
+                if line is None:
+                    break
                 message = json.loads(line)
-                data = message.get("payload", {})
-                if isinstance(data, dict) and isinstance(app_id(data), str):
-                    # Never trust browser proof received from the player itself.
-                    data.pop("_browser", None)
-                    if app_id(data).startswith(CHROME_PREFIX) and data.get("title"):
-                        data["_browser"] = probe_browser_source(data)
-                print(json.dumps(message, ensure_ascii=False), flush=True)
-            except (ValueError, TypeError, AttributeError):
+            except queue.Empty:
+                # Refresh actual playback before counting; never reuse an old
+                # "playing" notification as proof that five seconds were heard.
+                try:
+                    result = subprocess.run(
+                        [player, "get", "--now", "--no-artwork"],
+                        capture_output=True, text=True, timeout=3, check=True,
+                    )
+                    message = {"payload": json.loads(result.stdout)}
+                except (OSError, subprocess.SubprocessError, ValueError):
+                    try:
+                        suspend_pending(db_path, time.time())
+                    except (sqlite3.Error, OSError):
+                        pass
+                    next_check = time.monotonic() + HEARTBEAT_SECONDS
+                    continue
+            except (ValueError, TypeError):
                 continue
+            if not isinstance(message, dict):
+                continue
+            data = message.get("payload")
+            if not isinstance(data, dict):
+                data = {}
+                message["payload"] = data
+            data["_observed_at"] = time.time()
+            data.pop("_browser", None)
+            data.pop("_pending", None)
+            message.pop("_display", None)
+            source = app_id(data)
+            if isinstance(source, str) and source.startswith(CHROME_PREFIX) and data.get("title"):
+                data["_browser"] = probe_browser_source(data)
+            try:
+                if not data.get("title") and next_check is not None:
+                    suspend_pending(db_path, data["_observed_at"])
+                text = record(data, db_path)
+            except (sqlite3.Error, OSError):
+                text = display(clean(data.get("title")), clean(data.get("artist"))) \
+                    if data.get("playing") is True else ""
+                data["_pending"] = bool(data.get("playing") and browser_eligible(data))
+            # DB writes continue while a command is running in the terminal.
+            # Only send changed text to zsh, rather than one event per second.
+            if text != last_text:
+                emit_update(message, text)
+                last_text = text
+            if data.get("_pending"):
+                deadline = time.monotonic() + HEARTBEAT_SECONDS
+                next_check = min(next_check, deadline) if next_check is not None else deadline
+                if next_check <= time.monotonic():
+                    next_check = deadline
+            else:
+                next_check = None
         return child.wait()
     except BrokenPipeError:
         return 0
     finally:
         if child is not None:
-            if child.stdout is not None:
-                child.stdout.close()
             if child.poll() is None:
                 child.terminate()
                 try:
@@ -161,30 +274,35 @@ def watch_player(player):
                 except subprocess.TimeoutExpired:
                     child.kill()
                     child.wait()
+            if reader is not None:
+                reader.join(timeout=1)
+            if child.stdout is not None:
+                child.stdout.close()
         signal.signal(signal.SIGTERM, previous)
 
 
 def record(data, db_path=DEFAULT_DB, now=None):
-    """Count starts, not metadata updates or pause/resume; serialize all shells."""
+    """Commit one play only after more than five confirmed listening seconds."""
     if not isinstance(data, dict):
         return ""
+    data["_pending"] = False
     title, artist = clean(data.get("title")), clean(data.get("artist"))
     playing = data.get("playing") is True
-    if not title or data.get("isAdvertisement") is True:
+    if not title:
         return ""
-    if not browser_eligible(data):
-        return display(title, artist) if playing else ""
-    now = time.time() if now is None else now
+    now = observation_time(data, now)
+    if data.get("isAdvertisement") is True or not browser_eligible(data):
+        suspend_pending(db_path, now)
+        return display(title, artist) if playing and not data.get("isAdvertisement") else ""
     stamp = event_time(data, now)
-    elapsed = number(data.get("elapsedTime"))
-    source = data.get("parentApplicationBundleIdentifier") or data.get("bundleIdentifier") or ""
+    position = playback_position(data, now)
+    source = app_id(data)
     rate = number(data.get("playbackRate"))
     rate = rate if rate is not None else (1.0 if playing else 0.0)
     db_path = Path(db_path)
     db_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     con = sqlite3.connect(db_path, timeout=0.5, isolation_level=None)
     try:
-        # The state check and increment must be one transaction across terminals.
         con.execute("BEGIN IMMEDIATE")
         con.execute("""CREATE TABLE IF NOT EXISTS plays (
             id INTEGER PRIMARY KEY, title TEXT NOT NULL, artist TEXT NOT NULL,
@@ -195,40 +313,67 @@ def record(data, db_path=DEFAULT_DB, now=None):
             id INTEGER PRIMARY KEY CHECK(id=1), data TEXT NOT NULL)""")
         row = con.execute("SELECT data FROM state WHERE id=1").fetchone()
         previous = json.loads(row[0]) if row else {}
-        stale = bool(previous) and stamp < previous["stamp"] - 0.05
+        last_seen = previous.get("observed_at", now)
+        stale = bool(previous) and (
+            now < last_seen or stamp < previous.get("stamp", stamp) - 0.05
+        )
         same_title = title == previous.get("title") and source == previous.get("source")
-        # Some players supply the artist after the first track notification.
         if same_title and not artist:
             artist = previous.get("artist", "")
         same_song = same_title and (
             artist == previous.get("artist") or not previous.get("artist")
         )
         play_id = previous.get("play_id") if same_song else None
+        listened = previous.get("listened", 0.0) if same_song else 0.0
+        started_at = previous.get("started_at", now) if same_song else now
         if not stale:
+            gap = max(0, now - last_seen)
+            old_position = previous.get("elapsed")
+            old_rate = previous.get("rate", 1.0)
+            expected = old_position
+            if expected is not None and previous.get("playing"):
+                expected += gap * old_rate
+            restarted = bool(
+                same_song and playing and position is not None
+                and expected is not None and position <= 5
+                and expected - position >= 2
+            )
+            if (not same_song or restarted) and previous:
+                # A skip can arrive just after the five-second boundary, before
+                # the next periodic sample. The new track's age bounds the end
+                # of the old one. Long gaps and unknown positions get no credit.
+                old_listened = previous.get("listened", 0.0)
+                if (previous.get("play_id") is None and previous.get("playing")
+                        and source == previous.get("source") and playing
+                        and position is not None and position <= 5 and rate > 0
+                        and old_position is not None and gap <= MAX_SAMPLE_GAP):
+                    ended_at = now - position / rate
+                    old_listened += max(0, min(now, ended_at) - last_seen)
+                    if old_listened > MIN_LISTEN_SECONDS:
+                        con.execute(
+                            "INSERT INTO plays(title, artist, played_at) VALUES(?, ?, ?)",
+                            (previous["title"], previous["artist"],
+                             previous.get("started_at", last_seen)),
+                        )
+                play_id, listened, started_at = None, 0.0, now
+            elif same_song and previous.get("playing") and gap <= MAX_SAMPLE_GAP:
+                if old_position is not None and position is not None and old_rate > 0:
+                    # A seek may jump the position forward, but cannot add more
+                    # listening time than the actual interval between samples.
+                    advanced = max(0, position - old_position) / old_rate
+                    listened += min(gap, advanced)
             if same_song and artist and not previous.get("artist") and play_id:
                 con.execute("UPDATE plays SET artist=? WHERE id=?", (artist, play_id))
-            restarted = False
-            if same_song and playing and play_id and elapsed is not None:
-                old_elapsed = previous.get("elapsed")
-                if old_elapsed is not None and stamp > previous["stamp"] + 0.5:
-                    expected = old_elapsed
-                    if previous.get("playing"):
-                        expected += max(0, stamp - previous["stamp"]) * previous.get("rate", 1)
-                    # Returning to the beginning counts as another play.
-                    # Ordinary seeks and resuming a paused song do not.
-                    restarted = elapsed <= 5 and expected - elapsed >= 10
-            if playing and (play_id is None or restarted):
+            if listened > MIN_LISTEN_SECONDS and play_id is None:
                 cursor = con.execute(
                     "INSERT INTO plays(title, artist, played_at) VALUES(?, ?, ?)",
-                    (title, artist, now),
+                    (title, artist, started_at),
                 )
                 play_id = cursor.lastrowid
             state = dict(
                 title=title, artist=artist, source=source, playing=playing,
-                elapsed=elapsed if elapsed is not None else (
-                    previous.get("elapsed") if same_song else None
-                ),
-                stamp=stamp, rate=rate, play_id=play_id,
+                elapsed=position, stamp=stamp, rate=rate, play_id=play_id,
+                observed_at=now, listened=listened, started_at=started_at,
             )
             con.execute(
                 "INSERT INTO state(id, data) VALUES(1, ?) "
@@ -239,7 +384,8 @@ def record(data, db_path=DEFAULT_DB, now=None):
             "SELECT COUNT(*) FROM plays WHERE title=? AND artist=?", (title, artist)
         ).fetchone()[0]
         con.execute("COMMIT")
-        return display(title, artist, count) if playing else ""
+        data["_pending"] = playing and play_id is None
+        return display(title, artist, count if play_id is not None else None) if playing else ""
     finally:
         con.close()
 
@@ -298,13 +444,16 @@ def main():
     rank.add_argument("--json", action="store_true", help="JSONで出力")
     args = parser.parse_args()
     if args.command == "watch":
-        return watch_player(args.player)
+        return watch_player(args.player, args.db)
     if args.command == "ingest":
         try:
             message = json.load(sys.stdin)
             data = message.get("payload", {}) if isinstance(message, dict) else {}
         except (ValueError, TypeError):
             print("")
+            return 0
+        if isinstance(message, dict) and isinstance(message.get("_display"), str):
+            print(message["_display"])
             return 0
         try:
             print(record(data, args.db))
