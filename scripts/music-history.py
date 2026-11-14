@@ -8,6 +8,9 @@ import os
 from pathlib import Path
 import re
 import sqlite3
+import signal
+import subprocess
+from urllib.parse import urlsplit
 import sys
 import time
 import unicodedata
@@ -49,6 +52,118 @@ def display(title, artist, count=None):
     return text + (f" · {count}回目" if count is not None else "")
 
 
+
+# Browser IDs are not enough to distinguish YouTube from YouTube Music.
+CHROME_PREFIX = "com.google.Chrome"
+OTHER_BROWSER_PREFIXES = (
+    "com.apple.Safari", "org.mozilla.firefox", "com.microsoft.edgemac",
+    "com.brave.Browser", "com.vivaldi.Vivaldi", "com.operasoftware.Opera",
+    "company.thebrowser.Browser", "com.cmuxterm", "com.mitchellh.ghostty",
+)
+SOURCE_PROBE = Path(__file__).with_name("music-source.js")
+
+
+def app_id(data):
+    return data.get("parentApplicationBundleIdentifier") or data.get("bundleIdentifier") or ""
+
+
+def youtube_music_url(value):
+    try:
+        parsed = urlsplit(value) if isinstance(value, str) else None
+        return bool(parsed and parsed.scheme == "https" and parsed.hostname == "music.youtube.com")
+    except ValueError:
+        return False
+
+
+def browser_eligible(data):
+    source = app_id(data)
+    if not isinstance(source, str):
+        return False
+    if source.startswith(CHROME_PREFIX):
+        proof = data.get("_browser", {})
+        return (
+            isinstance(proof, dict) and proof.get("status") == "verified"
+            and youtube_music_url(proof.get("url"))
+        )
+    # Other browsers cannot be verified by the Chrome probe.
+    return not source.startswith(OTHER_BROWSER_PREFIXES)
+
+
+def classify_browser_source(data, snapshot):
+    """Require a matching title, artist, playback state, and exact Music host."""
+    if not isinstance(snapshot, dict) or snapshot.get("ok") is not True:
+        return {"status": "unverified"}
+    title, artist = clean(data.get("title")), clean(data.get("artist"))
+    playing = data.get("playing") is True
+    matches = []
+    for tab in snapshot.get("tabs", []):
+        if not isinstance(tab, dict) or tab.get("playing") is not playing:
+            continue
+        if not title or clean(tab.get("title")) != title:
+            continue
+        tab_artist = clean(tab.get("artist"))
+        if artist and tab_artist and artist != tab_artist:
+            continue
+        matches.append(tab)
+    music = [tab for tab in matches if youtube_music_url(tab.get("url"))]
+    if music and len(music) == len(matches):
+        return {"status": "verified", "url": music[0]["url"]}
+    return {"status": "blocked" if matches else "unverified"}
+
+
+def probe_browser_source(data):
+    try:
+        result = subprocess.run(
+            ["/usr/bin/osascript", "-l", "JavaScript", str(SOURCE_PROBE)],
+            capture_output=True, text=True, timeout=2, check=True,
+        )
+        return classify_browser_source(data, json.loads(result.stdout))
+    except (OSError, subprocess.SubprocessError, ValueError, TypeError):
+        return {"status": "unverified"}
+
+
+def watch_player(player):
+    """Resolve browser source off the prompt thread, then forward JSON events."""
+    child = None
+
+    def stop(signum, frame):
+        raise SystemExit(0)
+
+    previous = signal.signal(signal.SIGTERM, stop)
+    try:
+        child = subprocess.Popen(
+            [player, "stream", "--no-diff", "--no-artwork", "--debounce=250"],
+            stdout=subprocess.PIPE, stderr=subprocess.DEVNULL, text=True,
+        )
+        for line in child.stdout:
+            try:
+                message = json.loads(line)
+                data = message.get("payload", {})
+                if isinstance(data, dict) and isinstance(app_id(data), str):
+                    # Never trust browser proof received from the player itself.
+                    data.pop("_browser", None)
+                    if app_id(data).startswith(CHROME_PREFIX) and data.get("title"):
+                        data["_browser"] = probe_browser_source(data)
+                print(json.dumps(message, ensure_ascii=False), flush=True)
+            except (ValueError, TypeError, AttributeError):
+                continue
+        return child.wait()
+    except BrokenPipeError:
+        return 0
+    finally:
+        if child is not None:
+            if child.stdout is not None:
+                child.stdout.close()
+            if child.poll() is None:
+                child.terminate()
+                try:
+                    child.wait(timeout=1)
+                except subprocess.TimeoutExpired:
+                    child.kill()
+                    child.wait()
+        signal.signal(signal.SIGTERM, previous)
+
+
 def record(data, db_path=DEFAULT_DB, now=None):
     """Count starts, not metadata updates or pause/resume; serialize all shells."""
     if not isinstance(data, dict):
@@ -57,6 +172,8 @@ def record(data, db_path=DEFAULT_DB, now=None):
     playing = data.get("playing") is True
     if not title or data.get("isAdvertisement") is True:
         return ""
+    if not browser_eligible(data):
+        return display(title, artist) if playing else ""
     now = time.time() if now is None else now
     stamp = event_time(data, now)
     elapsed = number(data.get("elapsedTime"))
@@ -169,6 +286,8 @@ def main():
     parser.add_argument("--db", type=Path, default=DEFAULT_DB, help="保存先")
     commands = parser.add_subparsers(dest="command", required=True)
     commands.add_parser("ingest", help="再生情報を標準入力から記録")
+    watch = commands.add_parser("watch", help="再生情報とブラウザの再生元を監視")
+    watch.add_argument("--player", required=True, help="media-control のパス")
     rank = commands.add_parser("rank", help="再生回数ランキング")
     rank.add_argument("kind", nargs="?", choices=("songs", "artists"), default="songs",
                       help="songs: 曲別 / artists: 歌手別")
@@ -178,6 +297,8 @@ def main():
     rank.add_argument("--all", action="store_true", help="全件表示")
     rank.add_argument("--json", action="store_true", help="JSONで出力")
     args = parser.parse_args()
+    if args.command == "watch":
+        return watch_player(args.player)
     if args.command == "ingest":
         try:
             message = json.load(sys.stdin)

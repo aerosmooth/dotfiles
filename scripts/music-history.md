@@ -45,3 +45,13 @@ python3 -B scripts/test_music_history.py -v
 
 `.zshrc.local` は Git の管理対象外です。
 コマンドとプロンプトから `~/dotfiles/scripts/music-history.py` を呼び出します。
+
+## YouTube の保存対象
+
+- Chrome の YouTube Music は、URL・曲名・歌手名・再生状態を照合して記録します。
+- 通常の YouTube はタイトル表示だけにし、履歴やランキングへ保存しません。
+- Chrome では「表示 → デベロッパー → Apple Events からの JavaScript を許可」を ON にします。許可がなく取得に失敗した場合も保存しません。
+- 同名の動画が YouTube と YouTube Music で同時再生されるなど、判別できない場合は保存しません。
+- Chrome 以外の一般的なブラウザは、再生元を確認できないため記録しません。Apple Music・Spotify などのアプリは従来どおりです。
+- 判別はバックグラウンドで行います。
+- この変更前に保存された履歴はそのまま残ります。過去の記録にはURLがなく、YouTube分だけを安全に自動削除できません。

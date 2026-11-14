@@ -6,6 +6,7 @@ import tempfile
 import subprocess
 import sys
 import unittest
+from unittest.mock import patch
 
 spec = importlib.util.spec_from_file_location("music_history", Path(__file__).with_name("music-history.py"))
 music = importlib.util.module_from_spec(spec)
@@ -15,7 +16,8 @@ spec.loader.exec_module(music)
 def event(title="曲A", artist="歌手A", second=0, elapsed=0, playing=True):
     return dict(title=title, artist=artist, playing=playing, elapsedTime=elapsed,
                 timestamp=f"2026-11-14T00:{second // 60:02}:{second % 60:02}Z",
-                bundleIdentifier="com.google.Chrome", playbackRate=1 if playing else 0)
+                bundleIdentifier="com.google.Chrome", playbackRate=1 if playing else 0,
+                _browser={"status": "verified", "url": "https://music.youtube.com/watch?v=test"})
 
 
 class HistoryTest(unittest.TestCase):
@@ -97,6 +99,89 @@ class HistoryTest(unittest.TestCase):
         self.assertEqual(music.record({}, self.db), "")
         self.assertEqual(music.record(dict(event(), isAdvertisement=True), self.db), "")
         self.assertEqual(music.clean("100%\n🎵☀️"), "100% 🎵☀️")
+
+
+    def test_regular_youtube_is_displayed_but_never_saved(self):
+        normal = dict(event(), _browser={"status": "blocked", "url": "https://www.youtube.com/watch?v=x"})
+        self.assertEqual(music.record(normal, self.db), "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+        missing_proof = event()
+        missing_proof.pop("_browser")
+        self.assertEqual(music.record(missing_proof, self.db), "曲A — 歌手A")
+        spoofed = dict(event(), _browser={"status": "verified", "url": "https://music.youtube.com.evil.test/"})
+        self.assertEqual(music.record(spoofed, self.db), "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+
+    def test_music_and_youtube_are_distinguished_by_playing_state(self):
+        data = event()
+        playing_music = dict(url="https://music.youtube.com/watch?v=a", title="曲A",
+                             artist="歌手A", playing=True)
+        regular = dict(url="https://www.youtube.com/watch?v=b", title="動画B",
+                       artist="投稿者", playing=True)
+        snapshot = {"ok": True, "tabs": [playing_music, regular]}
+        self.assertEqual(music.classify_browser_source(data, snapshot)["status"], "verified")
+        self.assertEqual(music.classify_browser_source(
+            dict(data, title="動画B", artist="投稿者"), snapshot)["status"], "blocked")
+        snapshot["tabs"][0] = dict(playing_music, playing=False)
+        self.assertEqual(music.classify_browser_source(data, snapshot)["status"], "unverified")
+
+    def test_identical_simultaneous_titles_are_not_saved(self):
+        data = event()
+        tab = dict(title="曲A", artist="歌手A", playing=True)
+        snapshot = {"ok": True, "tabs": [
+            dict(tab, url="https://music.youtube.com/watch?v=a"),
+            dict(tab, url="https://www.youtube.com/watch?v=a"),
+        ]}
+        proof = music.classify_browser_source(data, snapshot)
+        self.assertEqual(proof["status"], "blocked")
+        self.assertEqual(music.record(dict(data, _browser=proof), self.db), "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+
+    def test_probe_failure_and_other_browsers_are_not_saved(self):
+        data = event()
+        self.assertEqual(music.classify_browser_source(data, {"ok": False})["status"], "unverified")
+        with patch.object(music.subprocess, "run", side_effect=subprocess.TimeoutExpired("osascript", 2)):
+            self.assertEqual(music.probe_browser_source(data)["status"], "unverified")
+        self.assertEqual(music.record(dict(data, bundleIdentifier="com.apple.Safari"), self.db),
+                         "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+        self.assertEqual(music.record(dict(data, bundleIdentifier="com.apple.Music"), self.db),
+                         "曲A — 歌手A · 1回目")
+
+    def test_paused_music_can_still_update_pause_state(self):
+        paused = event(playing=False)
+        snapshot = {"ok": True, "tabs": [
+            dict(url="https://music.youtube.com/library/songs", title="曲A",
+                 artist="歌手A", playing=False)
+        ]}
+        self.assertEqual(music.classify_browser_source(paused, snapshot)["status"], "verified")
+
+    def test_ignored_youtube_does_not_change_counts_or_current_song(self):
+        self.put()
+        self.put(second=30, elapsed=30)
+        data = dict(event(title="動画B", artist="投稿者", second=40),
+                    _browser={"status": "blocked", "url": "https://www.youtube.com/watch?v=b"})
+        music.record(data, self.db, now=1040)
+        self.assertEqual(self.put(second=50, elapsed=50), "曲A — 歌手A · 1回目")
+        self.assertEqual(music.ranking(self.db), [("曲A", "歌手A", 1)])
+
+    def test_watcher_enriches_browser_events_and_cleans_up_child(self):
+        from io import StringIO
+        from contextlib import redirect_stdout
+        from unittest.mock import Mock
+        child = Mock()
+        child.stdout = StringIO(json.dumps({"payload": event()}) + "\n")
+        child.wait.return_value = 0
+        child.poll.return_value = None
+        output = StringIO()
+        proof = {"status": "verified", "url": "https://music.youtube.com/watch?v=a"}
+        with patch.object(music.subprocess, "Popen", return_value=child), \
+             patch.object(music, "probe_browser_source", return_value=proof), \
+             redirect_stdout(output):
+            self.assertEqual(music.watch_player("player"), 0)
+        self.assertEqual(json.loads(output.getvalue())["payload"]["_browser"], proof)
+        child.terminate.assert_called_once()
+        self.assertTrue(child.stdout.closed)
 
 
 if __name__ == "__main__":
