@@ -177,7 +177,7 @@ def emit_update(message, text):
     print(json.dumps(message, ensure_ascii=False), flush=True)
 
 
-def watch_player(player, db_path=DEFAULT_DB):
+def watch_player(player, db_path=DEFAULT_DB, record_enabled=True):
     """Record in the background; sample pending plays even without stream events."""
     child = reader = None
     events = queue.Queue()
@@ -239,17 +239,22 @@ def watch_player(player, db_path=DEFAULT_DB):
             data.pop("_browser", None)
             data.pop("_pending", None)
             message.pop("_display", None)
-            source = app_id(data)
-            if isinstance(source, str) and source.startswith(CHROME_PREFIX) and data.get("title"):
-                data["_browser"] = probe_browser_source(data)
-            try:
-                if not data.get("title") and next_check is not None:
-                    suspend_pending(db_path, data["_observed_at"])
-                text = record(data, db_path)
-            except (sqlite3.Error, OSError):
+            if record_enabled:
+                source = app_id(data)
+                if isinstance(source, str) and source.startswith(CHROME_PREFIX) and data.get("title"):
+                    data["_browser"] = probe_browser_source(data)
+                try:
+                    if not data.get("title") and next_check is not None:
+                        suspend_pending(db_path, data["_observed_at"])
+                    text = record(data, db_path)
+                except (sqlite3.Error, OSError):
+                    text = display(clean(data.get("title")), clean(data.get("artist"))) \
+                        if data.get("playing") is True else ""
+                    data["_pending"] = bool(data.get("playing") and browser_eligible(data))
+            else:
                 text = display(clean(data.get("title")), clean(data.get("artist"))) \
                     if data.get("playing") is True else ""
-                data["_pending"] = bool(data.get("playing") and browser_eligible(data))
+                data["_pending"] = False
             # DB writes continue while a command is running in the terminal.
             # Only send changed text to zsh, rather than one event per second.
             if text != last_text:
@@ -278,6 +283,11 @@ def watch_player(player, db_path=DEFAULT_DB):
                 reader.join(timeout=1)
             if child.stdout is not None:
                 child.stdout.close()
+        if record_enabled:
+            try:
+                suspend_pending(db_path, time.time())
+            except (sqlite3.Error, OSError):
+                pass
         signal.signal(signal.SIGTERM, previous)
 
 
@@ -434,7 +444,34 @@ def main():
     commands.add_parser("ingest", help="再生情報を標準入力から記録")
     watch = commands.add_parser("watch", help="再生情報とブラウザの再生元を監視")
     watch.add_argument("--player", required=True, help="media-control のパス")
-    rank = commands.add_parser("rank", help="再生回数ランキング")
+    watch.add_argument("--no-record", action="store_true", help="表示だけにして履歴を保存しない")
+    rank = commands.add_parser(
+        "rank", prog="music-rank", help="再生回数ランキング",
+        description="曲別・歌手別の再生回数ランキングを表示します。",
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+        epilog="""使用例:
+  music-rank                         全期間の曲別ランキング（上位20件）
+  music-rank artists                 歌手別ランキング
+  music-rank --artist "椎名 豪"       歌手名の一部で絞り込み
+  music-rank --days 7                最近7日分
+  music-rank artists --days 30       最近30日分の歌手別ランキング
+  music-rank --limit 50              上位50件
+  music-rank --all                   全件表示
+  music-rank --json                  JSONで出力
+
+表示と記録の切り替え（各ターミナルで設定）:
+  export MUSIC_PROMPT_ENABLED=0      表示をOFF（記録は続ける）
+  export MUSIC_PROMPT_ENABLED=1      表示をON
+  export MUSIC_HISTORY_ENABLED=0     記録をOFF
+  export MUSIC_HISTORY_ENABLED=1     記録をON（初期値）
+
+数え方:
+  5秒を超えて聞いた曲を1回と数えます。一時停止からの再開は1回のままです。
+  通常のYouTubeは保存せず、ChromeのYouTube Musicを確認して保存します。
+  --days N は現在からさかのぼった N × 24 時間です。
+  mucic-rank でも同じコマンドを呼び出せます。
+""",
+    )
     rank.add_argument("kind", nargs="?", choices=("songs", "artists"), default="songs",
                       help="songs: 曲別 / artists: 歌手別")
     rank.add_argument("--artist", help="歌手名の一部で絞り込み")
@@ -444,7 +481,7 @@ def main():
     rank.add_argument("--json", action="store_true", help="JSONで出力")
     args = parser.parse_args()
     if args.command == "watch":
-        return watch_player(args.player, args.db)
+        return watch_player(args.player, args.db, record_enabled=not args.no_record)
     if args.command == "ingest":
         try:
             message = json.load(sys.stdin)

@@ -301,5 +301,35 @@ class HistoryTest(unittest.TestCase):
         self.assertEqual(music.ranking(self.db), [("曲A", "歌手A", 1)])
 
 
+    def test_display_only_watcher_never_records_or_probes_browser(self):
+        child = Mock()
+        child.stdout = StringIO(json.dumps({"payload": event()}) + "\n")
+        child.wait.return_value = 0
+        child.poll.return_value = None
+        output = StringIO()
+        with patch.object(music.subprocess, "Popen", return_value=child), \
+             patch.object(music, "record", side_effect=AssertionError("must not record")), \
+             patch.object(music, "probe_browser_source", side_effect=AssertionError("must not probe")), \
+             redirect_stdout(output):
+            self.assertEqual(music.watch_player("player", self.db, record_enabled=False), 0)
+        message = json.loads(output.getvalue())
+        self.assertEqual(message["_display"], "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+        child.terminate.assert_called_once()
+
+    def test_cli_display_only_does_not_create_history(self):
+        player = Path(self.tmp.name) / "player"
+        player.write_text("#!" + sys.executable + "\nimport json\nprint(" +
+                          repr(json.dumps({"payload": event()})) + ",flush=True)\n")
+        player.chmod(0o755)
+        result = subprocess.run(
+            [sys.executable, "-B", str(Path(__file__).with_name("music-history.py")),
+             "--db", str(self.db), "watch", "--player", str(player), "--no-record"],
+            capture_output=True, text=True, check=True,
+        )
+        self.assertEqual(json.loads(result.stdout)["_display"], "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+
+
 if __name__ == "__main__":
     unittest.main()

@@ -12,15 +12,20 @@ music-rank artists --days 30         # 最近30日分の歌手別
 music-rank --limit 50                # 上位50件
 music-rank --all                     # 全件
 music-rank --json                    # JSON形式
-music-rank --help
-export MUSIC_PROMPT_ENABLED=0        # 表示と記録をOFF
-export MUSIC_PROMPT_ENABLED=1        # 表示と記録をON
+music-rank --help                   # 使用例・設定・数え方を表示（-h でも可）
+mucic-rank --help                   # 同じコマンドの別名
+export MUSIC_PROMPT_ENABLED=0        # 表示だけOFF（記録は続ける）
+export MUSIC_PROMPT_ENABLED=1        # 表示をON
+export MUSIC_HISTORY_ENABLED=0       # 記録をOFF
+export MUSIC_HISTORY_ENABLED=1       # 記録をON（初期値）
 ```
 
 ## 数え方
 
-- この設定を読み込んだ ON のターミナルが開いている間だけ記録します。
-- 導入前や OFF 中の履歴は取り込めません。曲の途中から監視した場合も、その後の再生時間を確認してから数えます。
+- この設定を読み込み、MUSIC_HISTORY_ENABLED=1 のターミナルが開いている間だけ記録します。表示が OFF でも記録します。
+- 表示と記録は別々に切り替えられます。初期値は両方 ON です。変更は次のプロンプトで反映されます。
+- 設定はターミナルごとです。他のターミナルで記録が ON なら、そのターミナルによる記録は続きます。
+- 導入前や記録が OFF の間の履歴は取り込めません。曲の途中から監視した場合も、その後の再生時間を確認してから数えます。
 - 再生を確認できた時間が合計5秒を超えた場合に1回と数えます。5秒以内（5秒ちょうどを含む）で次の曲へ進んだ場合は数えません。
 - 一時停止中の時間と、早送りで飛ばした秒数は再生時間に含めません。
 - 記録前は約1秒ごとに再生状態を確認します。5秒を超えるまでは曲名だけを表示し、記録後に「N回目」を付けます。
