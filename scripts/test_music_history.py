@@ -379,5 +379,58 @@ class HistoryTest(unittest.TestCase):
             self.assertEqual(music.canonical_artist(name), name)
 
 
+    def test_paused_counted_song_remains_visible_without_extra_play(self):
+        self.listen()
+        self.assertEqual(self.put(second=7, elapsed=6, playing=False),
+                         "曲A — 歌手A · 1回目")
+        self.assertEqual(self.put(second=100, elapsed=6, playing=False),
+                         "曲A — 歌手A · 1回目")
+        self.assertEqual(self.put(second=101, elapsed=6), "曲A — 歌手A · 1回目")
+        self.assertEqual(music.ranking(self.db), [("曲A", "歌手A", 1)])
+        self.assertEqual(music.record({}, self.db), "")
+        self.assertEqual(music.record({"playing": False, "artist": "歌手A"}, self.db), "")
+
+    def test_pending_paused_song_remains_visible_without_counting_pause_time(self):
+        for second in range(3):
+            self.put(second=second)
+        self.assertEqual(self.put(second=3, elapsed=2, playing=False), "曲A — 歌手A")
+        self.assertEqual(self.put(second=100, elapsed=2, playing=False), "曲A — 歌手A")
+        self.assertEqual(music.ranking(self.db), [])
+        self.put(second=101, elapsed=2)
+        for second in range(102, 105):
+            self.put(second=second, elapsed=second-99)
+        self.assertEqual(music.ranking(self.db), [])
+        self.assertEqual(self.put(second=105, elapsed=6), "曲A — 歌手A · 1回目")
+
+    def test_display_only_keeps_paused_song_then_clears_when_media_disappears(self):
+        child = Mock()
+        child.stdout = StringIO(
+            json.dumps({"payload": event(playing=False)}) + "\n" +
+            json.dumps({"payload": {}}) + "\n"
+        )
+        child.wait.return_value = 0
+        child.poll.return_value = None
+        output = StringIO()
+        with patch.object(music.subprocess, "Popen", return_value=child), redirect_stdout(output):
+            self.assertEqual(music.watch_player("player", self.db, record_enabled=False), 0)
+        messages = [json.loads(line) for line in output.getvalue().splitlines()]
+        self.assertEqual([message["_display"] for message in messages], ["曲A — 歌手A", ""])
+        self.assertFalse(self.db.exists())
+
+    def test_history_error_still_displays_paused_song(self):
+        child = Mock()
+        child.stdout = StringIO(json.dumps({"payload": event(playing=False)}) + "\n")
+        child.wait.return_value = 0
+        child.poll.return_value = None
+        output = StringIO()
+        with patch.object(music.subprocess, "Popen", return_value=child), \
+             patch.object(music, "probe_browser_source", return_value={"status": "verified"}), \
+             patch.object(music, "record", side_effect=sqlite3.OperationalError("busy")), \
+             redirect_stdout(output):
+            self.assertEqual(music.watch_player("player", self.db), 0)
+        self.assertEqual(json.loads(output.getvalue())["_display"], "曲A — 歌手A")
+        self.assertFalse(self.db.exists())
+
+
 if __name__ == "__main__":
     unittest.main()

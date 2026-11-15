@@ -265,11 +265,11 @@ def watch_player(player, db_path=DEFAULT_DB, record_enabled=True):
                     text = record(data, db_path)
                 except (sqlite3.Error, OSError):
                     text = display(clean(data.get("title")), canonical_artist(data.get("artist"))) \
-                        if data.get("playing") is True else ""
+                        if clean(data.get("title")) else ""
                     data["_pending"] = bool(data.get("playing") and browser_eligible(data))
             else:
                 text = display(clean(data.get("title")), canonical_artist(data.get("artist"))) \
-                    if data.get("playing") is True else ""
+                    if clean(data.get("title")) else ""
                 data["_pending"] = False
             # DB writes continue while a command is running in the terminal.
             # Only send changed text to zsh, rather than one event per second.
@@ -319,7 +319,7 @@ def record(data, db_path=DEFAULT_DB, now=None):
     now = observation_time(data, now)
     if data.get("isAdvertisement") is True or not browser_eligible(data):
         suspend_pending(db_path, now)
-        return display(title, artist) if playing and not data.get("isAdvertisement") else ""
+        return display(title, artist) if not data.get("isAdvertisement") else ""
     stamp = event_time(data, now)
     position = playback_position(data, now)
     source = app_id(data)
@@ -414,7 +414,7 @@ def record(data, db_path=DEFAULT_DB, now=None):
         ).fetchone()[0]
         con.execute("COMMIT")
         data["_pending"] = playing and play_id is None
-        return display(title, artist, count if play_id is not None else None) if playing else ""
+        return display(title, artist, count if play_id is not None else None)
     finally:
         con.close()
 
@@ -488,6 +488,7 @@ def main():
 
 数え方:
   5秒を超えて聞いた曲を1回と数えます。一時停止からの再開は1回のままです。
+  一時停止中も曲名を表示し、Macの再生中情報から曲がなくなったら消します。
   通常のYouTubeは保存せず、ChromeのYouTube Musicを確認して保存します。
   --days N は現在からさかのぼった N × 24 時間です。
   mucic-rank でも同じコマンドを呼び出せます。
@@ -517,7 +518,7 @@ def main():
             print(record(data, args.db))
         except (sqlite3.Error, OSError):
             # Keep the song visible even if the history cannot be saved.
-            if isinstance(data, dict) and data.get("playing") is True:
+            if isinstance(data, dict) and clean(data.get("title")):
                 print(display(clean(data.get("title")), canonical_artist(data.get("artist"))))
             else:
                 print("")
