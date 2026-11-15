@@ -28,6 +28,21 @@ def clean(value):
     return unicodedata.normalize("NFC", IVS.sub("", UNSAFE.sub(" ", value))).strip()
 
 
+
+# Explicit aliases only: punctuation in other artist names is preserved.
+ARTIST_ALIASES = {
+    "draw♡me": "DRAW ME",
+    "draw_me": "DRAW ME",
+    "draw me": "DRAW ME",
+    "radwimps": "RADWIMPS",
+}
+
+
+def canonical_artist(value):
+    name = clean(value)
+    return ARTIST_ALIASES.get(name.casefold(), name)
+
+
 def number(value):
     if isinstance(value, bool):
         return None
@@ -50,6 +65,7 @@ def event_time(data, now):
 
 
 def display(title, artist, count=None):
+    artist = canonical_artist(artist)
     text = " — ".join(part for part in (title, artist) if part)
     return text + (f" · {count}回目" if count is not None else "")
 
@@ -95,7 +111,7 @@ def classify_browser_source(data, snapshot):
     """Require a matching title, artist, playback state, and exact Music host."""
     if not isinstance(snapshot, dict) or snapshot.get("ok") is not True:
         return {"status": "unverified"}
-    title, artist = clean(data.get("title")), clean(data.get("artist"))
+    title, artist = clean(data.get("title")), canonical_artist(data.get("artist"))
     playing = data.get("playing") is True
     matches = []
     for tab in snapshot.get("tabs", []):
@@ -103,7 +119,7 @@ def classify_browser_source(data, snapshot):
             continue
         if not title or clean(tab.get("title")) != title:
             continue
-        tab_artist = clean(tab.get("artist"))
+        tab_artist = canonical_artist(tab.get("artist"))
         if artist and tab_artist and artist != tab_artist:
             continue
         matches.append(tab)
@@ -248,11 +264,11 @@ def watch_player(player, db_path=DEFAULT_DB, record_enabled=True):
                         suspend_pending(db_path, data["_observed_at"])
                     text = record(data, db_path)
                 except (sqlite3.Error, OSError):
-                    text = display(clean(data.get("title")), clean(data.get("artist"))) \
+                    text = display(clean(data.get("title")), canonical_artist(data.get("artist"))) \
                         if data.get("playing") is True else ""
                     data["_pending"] = bool(data.get("playing") and browser_eligible(data))
             else:
-                text = display(clean(data.get("title")), clean(data.get("artist"))) \
+                text = display(clean(data.get("title")), canonical_artist(data.get("artist"))) \
                     if data.get("playing") is True else ""
                 data["_pending"] = False
             # DB writes continue while a command is running in the terminal.
@@ -296,7 +312,7 @@ def record(data, db_path=DEFAULT_DB, now=None):
     if not isinstance(data, dict):
         return ""
     data["_pending"] = False
-    title, artist = clean(data.get("title")), clean(data.get("artist"))
+    title, artist = clean(data.get("title")), canonical_artist(data.get("artist"))
     playing = data.get("playing") is True
     if not title:
         return ""
@@ -313,6 +329,7 @@ def record(data, db_path=DEFAULT_DB, now=None):
     db_path.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
     con = sqlite3.connect(db_path, timeout=0.5, isolation_level=None)
     try:
+        con.create_function("canonical_artist", 1, canonical_artist)
         con.execute("BEGIN IMMEDIATE")
         con.execute("""CREATE TABLE IF NOT EXISTS plays (
             id INTEGER PRIMARY KEY, title TEXT NOT NULL, artist TEXT NOT NULL,
@@ -323,6 +340,8 @@ def record(data, db_path=DEFAULT_DB, now=None):
             id INTEGER PRIMARY KEY CHECK(id=1), data TEXT NOT NULL)""")
         row = con.execute("SELECT data FROM state WHERE id=1").fetchone()
         previous = json.loads(row[0]) if row else {}
+        if previous:
+            previous["artist"] = canonical_artist(previous.get("artist"))
         last_seen = previous.get("observed_at", now)
         stale = bool(previous) and (
             now < last_seen or stamp < previous.get("stamp", stamp) - 0.05
@@ -391,7 +410,7 @@ def record(data, db_path=DEFAULT_DB, now=None):
                 (json.dumps(state, ensure_ascii=False),),
             )
         count = con.execute(
-            "SELECT COUNT(*) FROM plays WHERE title=? AND artist=?", (title, artist)
+            "SELECT COUNT(*) FROM plays WHERE title=? AND canonical_artist(artist)=?", (title, artist)
         ).fetchone()[0]
         con.execute("COMMIT")
         data["_pending"] = playing and play_id is None
@@ -407,19 +426,21 @@ def ranking(db_path, kind="songs", artist=None, days=None, limit=20, now=None):
     con = sqlite3.connect(path.resolve().as_uri() + "?mode=ro", uri=True, timeout=0.5)
     try:
         con.create_function("casefold", 1, str.casefold)
+        con.create_function("canonical_artist", 1, canonical_artist)
+        songs = "(SELECT title, canonical_artist(artist) AS artist, played_at FROM plays)"
         clauses, args = [], []
         if artist:
             clauses.append("instr(casefold(artist), ?) > 0")
-            args.append(clean(artist).casefold())
+            args.append(canonical_artist(artist).casefold())
         if days is not None:
             clauses.append("played_at >= ?")
             args.append((time.time() if now is None else now) - days * 86400)
         where = " WHERE " + " AND ".join(clauses) if clauses else ""
         if kind == "artists":
-            sql = "SELECT artist, COUNT(*) AS plays FROM plays" + where
+            sql = "SELECT artist, COUNT(*) AS plays FROM " + songs + where
             sql += " GROUP BY artist ORDER BY plays DESC, artist"
         else:
-            sql = "SELECT title, artist, COUNT(*) AS plays FROM plays" + where
+            sql = "SELECT title, artist, COUNT(*) AS plays FROM " + songs + where
             sql += " GROUP BY title, artist ORDER BY plays DESC, artist, title"
         if limit is not None:
             sql += " LIMIT ?"
@@ -497,7 +518,7 @@ def main():
         except (sqlite3.Error, OSError):
             # Keep the song visible even if the history cannot be saved.
             if isinstance(data, dict) and data.get("playing") is True:
-                print(display(clean(data.get("title")), clean(data.get("artist"))))
+                print(display(clean(data.get("title")), canonical_artist(data.get("artist"))))
             else:
                 print("")
         return 0

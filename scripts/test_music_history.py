@@ -331,5 +331,53 @@ class HistoryTest(unittest.TestCase):
         self.assertFalse(self.db.exists())
 
 
+    def seed_artist_aliases(self):
+        con = sqlite3.connect(self.db)
+        con.execute("""CREATE TABLE plays (
+            id INTEGER PRIMARY KEY, title TEXT NOT NULL, artist TEXT NOT NULL,
+            played_at REAL NOT NULL)""")
+        con.executemany("INSERT INTO plays(title, artist, played_at) VALUES(?, ?, ?)", [
+            ("曲A", "DRAW♡ME", 1000),
+            ("曲A", "DRAW♡ME", 1001),
+            ("曲A", "DRAW_ME", 1002),
+        ])
+        con.commit()
+        con.close()
+
+    def test_artist_aliases_merge_existing_rankings_and_searches(self):
+        self.seed_artist_aliases()
+        self.assertEqual(music.ranking(self.db, "artists"), [("DRAW ME", 3)])
+        self.assertEqual(music.ranking(self.db), [("曲A", "DRAW ME", 3)])
+        for name in ("DRAW ME", "DRAW♡ME", "DRAW_ME", "draw_me", "DRAW"):
+            self.assertEqual(music.ranking(self.db, artist=name), [("曲A", "DRAW ME", 3)])
+        self.assertEqual(music.ranking(self.db, days=1, now=1003), [("曲A", "DRAW ME", 3)])
+        con = sqlite3.connect(self.db)
+        self.assertEqual(con.execute("SELECT artist FROM plays ORDER BY id").fetchall(),
+                         [("DRAW♡ME",), ("DRAW♡ME",), ("DRAW_ME",)])
+        con.close()
+
+    def test_artist_alias_changes_do_not_restart_or_split_a_play(self):
+        self.seed_artist_aliases()
+        aliases = ("DRAW♡ME", "DRAW_ME", "DRAW ME")
+        for second in range(7):
+            text = self.put(second=second, artist=aliases[second % 3])
+        self.assertEqual(text, "曲A — DRAW ME · 4回目")
+        self.assertEqual(music.ranking(self.db, "artists"), [("DRAW ME", 4)])
+        con = sqlite3.connect(self.db)
+        self.assertEqual(con.execute("SELECT artist FROM plays ORDER BY id DESC LIMIT 1").fetchone(),
+                         ("DRAW ME",))
+        con.close()
+
+    def test_aliases_match_browser_metadata_without_merging_other_artists(self):
+        snapshot = {"ok": True, "tabs": [
+            dict(url="https://music.youtube.com/watch?v=a", title="曲A",
+                 artist="DRAW_ME", playing=True)
+        ]}
+        self.assertEqual(music.classify_browser_source(
+            event(artist="DRAW♡ME"), snapshot)["status"], "verified")
+        for name in ("DRAW_OTHER", "DRAW ME feat. Guest", "P!nk", "DRAWME"):
+            self.assertEqual(music.canonical_artist(name), name)
+
+
 if __name__ == "__main__":
     unittest.main()

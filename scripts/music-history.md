@@ -64,3 +64,11 @@ python3 -B scripts/test_music_history.py -v
 - Chrome 以外の一般的なブラウザは、再生元を確認できないため記録しません。Apple Music・Spotify などのアプリは従来どおりです。
 - 判別はバックグラウンドで行います。
 - この変更前に保存された履歴はそのまま残ります。過去の記録にはURLがなく、YouTube分だけを安全に自動削除できません。
+
+## 歌手名の表記
+
+- DRAW♡ME・DRAW_ME・DRAW ME は、表示と今後の保存で DRAW ME にそろえます。
+- RADWIMPS・Radwimps など、大文字・小文字が違う RADWIMPS の表記は RADWIMPS にそろえます。
+- 過去の記録もランキング・曲別回数の計算時に合算します。元の記録は残します。
+- music-rank --artist DRAW_ME のように以前の表記で検索しても、まとめた結果を表示します。
+- 他の歌手名の記号は変更しません。
