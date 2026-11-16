@@ -241,7 +241,7 @@ class HistoryTest(unittest.TestCase):
                          self.db, now=1000+second)
         self.assertEqual(music.ranking(self.db), [("曲A", "歌手A", 1)])
 
-    def test_watcher_records_quiet_stream_and_stops_sampling_after_count(self):
+    def test_watcher_records_quiet_stream_and_reduces_sampling_after_count(self):
         # Run a real child process. A short test-only threshold keeps the test fast.
         player = Path(self.tmp.name) / "player"
         player.write_text(
@@ -430,6 +430,33 @@ class HistoryTest(unittest.TestCase):
             self.assertEqual(music.watch_player("player", self.db), 0)
         self.assertEqual(json.loads(output.getvalue())["_display"], "曲A — 歌手A")
         self.assertFalse(self.db.exists())
+
+
+    def test_same_song_repeat_is_counted_without_new_stream_notification(self):
+        player = Path(self.tmp.name) / "quiet-repeat-player"
+        player.write_text(
+            "#!" + sys.executable + "\n"
+            "import datetime,json,sys,time\n"
+            "elapsed=(time.time()-" + repr(time.time()) + ")%0.5\n"
+            "data={'title':'繰り返す曲','artist':'歌手','playing':True,"
+            "'bundleIdentifier':'com.apple.Music','playbackRate':10,"
+            "'elapsedTimeNow':elapsed*10,"
+            "'timestamp':datetime.datetime.now(datetime.timezone.utc).isoformat()}\n"
+            "print(json.dumps({'payload':data} if sys.argv[1]=='stream' else data),flush=True)\n"
+            "if sys.argv[1]=='stream':time.sleep(1.3)\n"
+        )
+        player.chmod(0o755)
+        output = StringIO()
+        with patch.object(music, "MIN_LISTEN_SECONDS", 0.05), \
+             patch.object(music, "HEARTBEAT_SECONDS", 0.02), \
+             patch.object(music, "FOLLOWUP_SECONDS", 0.02, create=True), \
+             redirect_stdout(output):
+            self.assertEqual(music.watch_player(str(player), self.db), 0)
+        rows = music.ranking(self.db)
+        self.assertEqual(rows[0][:2], ("繰り返す曲", "歌手"))
+        self.assertGreaterEqual(rows[0][-1], 2)
+        texts = [json.loads(line)["_display"] for line in output.getvalue().splitlines()]
+        self.assertIn("繰り返す曲 — 歌手 · 2回目", texts)
 
 
 if __name__ == "__main__":

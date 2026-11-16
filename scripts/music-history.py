@@ -143,6 +143,7 @@ def probe_browser_source(data):
 
 MIN_LISTEN_SECONDS = 5.0
 HEARTBEAT_SECONDS = 1.0
+FOLLOWUP_SECONDS = 2.0
 MAX_SAMPLE_GAP = 3.0
 
 
@@ -194,7 +195,7 @@ def emit_update(message, text):
 
 
 def watch_player(player, db_path=DEFAULT_DB, record_enabled=True):
-    """Record in the background; sample pending plays even without stream events."""
+    """Record in the background and track repeats even without stream events."""
     child = reader = None
     events = queue.Queue()
 
@@ -276,8 +277,17 @@ def watch_player(player, db_path=DEFAULT_DB, record_enabled=True):
             if text != last_text:
                 emit_update(message, text)
                 last_text = text
+            interval = None
             if data.get("_pending"):
-                deadline = time.monotonic() + HEARTBEAT_SECONDS
+                interval = HEARTBEAT_SECONDS
+            elif (record_enabled and data.get("playing") is True
+                    and clean(data.get("title")) and browser_eligible(data)
+                    and not data.get("isAdvertisement")):
+                # A repeat can keep the same metadata and emit no stream event.
+                # Keep sampling so position resets and DB changes are reflected.
+                interval = FOLLOWUP_SECONDS
+            if interval is not None:
+                deadline = time.monotonic() + interval
                 next_check = min(next_check, deadline) if next_check is not None else deadline
                 if next_check <= time.monotonic():
                     next_check = deadline
