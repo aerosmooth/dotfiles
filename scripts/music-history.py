@@ -35,6 +35,8 @@ ARTIST_ALIASES = {
     "draw_me": "DRAW ME",
     "draw me": "DRAW ME",
     "radwimps": "RADWIMPS",
+    "nana mori": "森七菜",
+    "森なな": "森七菜",
 }
 
 

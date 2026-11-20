@@ -71,6 +71,7 @@ python3 -B scripts/test_music_history.py -v
 
 - DRAW♡ME・DRAW_ME・DRAW ME は、表示と今後の保存で DRAW ME にそろえます。
 - RADWIMPS・Radwimps など、大文字・小文字が違う RADWIMPS の表記は RADWIMPS にそろえます。
+- Nana Mori・森なな・森七菜 は、森七菜 にそろえます。
 - 過去の記録もランキング・曲別回数の計算時に合算します。元の記録は残します。
 - music-rank --artist DRAW_ME のように以前の表記で検索しても、まとめた結果を表示します。
 - 他の歌手名の記号は変更しません。
